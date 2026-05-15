@@ -1,0 +1,1312 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DEVCARD — Сайты за 7–10 дней. Без воды.</title>
+  <style>
+/* Personal-site kit — local styles. Imports the design system tokens. */
+/* ============================================================
+   Devcard Design System — Core tokens
+   Dark-first, acid accent, sharp geometry, terminal DNA.
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
+
+:root {
+  /* ---------- Color: canvas & neutrals ---------- */
+  --canvas:        #0A0B0D;     /* near-black, faint blue cast */
+  --canvas-raise:  #121316;     /* one step up — card surface  */
+  --canvas-sink:   #050608;     /* one step down — footer/well */
+
+  --neutral-900:   #1A1C20;
+  --neutral-800:   #25282E;
+  --neutral-700:   #3A3E46;
+  --neutral-500:   #6B7079;
+  --neutral-400:   #8E939C;
+  --neutral-300:   #B5B9C0;
+  --neutral-200:   #D5D8DC;
+  --neutral-100:   #E8EAEC;
+
+  --fg:            #F2F2EE;     /* slightly warm off-white   */
+  --fg-muted:      #8E939C;
+  --fg-faint:      #4A4E55;
+
+  /* ---------- Color: accents ---------- */
+  --accent:        #C8FF1F;     /* acid lime — primary accent */
+  --accent-dim:    #9ECC18;
+  --accent-ink:    #0A0B0D;     /* foreground that goes ON accent */
+
+  --signal:        #FF4D2E;     /* alarm orange — revisions, edits */
+  --signal-dim:    #CC3D24;
+
+  /* ---------- Semantic ---------- */
+  --bg:            var(--canvas);
+  --bg-elev:       var(--canvas-raise);
+  --bg-sink:       var(--canvas-sink);
+  --border:        var(--neutral-800);
+  --border-strong: var(--neutral-700);
+  --border-accent: var(--accent);
+
+  /* ---------- Light alt (rarely used) ---------- */
+  --paper:         #F2F2EE;
+  --paper-raise:   #FFFFFF;
+  --ink:           #0A0B0D;
+
+  /* ---------- Type: families ---------- */
+  --font-display:  "Unbounded", "Space Grotesk", system-ui, sans-serif;
+  --font-body:     "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:     "JetBrains Mono", "SF Mono", Menlo, monospace;
+
+  /* ---------- Type: scale (desktop; mobile scales down ~0.85x) ---------- */
+  --fs-display-xl: clamp(64px, 11vw, 168px);   /* hero monster */
+  --fs-display-l:  clamp(48px, 7vw, 104px);    /* section opener */
+  --fs-display-m:  clamp(36px, 4.5vw, 72px);   /* sub-hero */
+  --fs-h1:         clamp(32px, 3.5vw, 56px);
+  --fs-h2:         clamp(26px, 2.6vw, 40px);
+  --fs-h3:         clamp(20px, 1.8vw, 28px);
+  --fs-h4:         18px;
+  --fs-body-l:     20px;
+  --fs-body:       16px;
+  --fs-body-s:     14px;
+  --fs-caption:    12px;
+  --fs-mono-s:     12px;
+  --fs-mono:       14px;
+
+  --lh-tight:      0.92;
+  --lh-display:    1.02;
+  --lh-heading:    1.12;
+  --lh-body:       1.55;
+  --lh-loose:      1.7;
+
+  --ls-display:    -0.03em;
+  --ls-heading:    -0.015em;
+  --ls-body:       0em;
+  --ls-mono-cap:   0.08em;       /* mono uppercase tracking */
+
+  /* ---------- Spacing (4px base) ---------- */
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-24:  96px;
+  --space-32:  128px;
+  --space-48:  192px;
+
+  /* ---------- Radii — always 0. Sharp. ---------- */
+  --radius-0:    0px;
+  --radius-pill: 0px;   /* deliberate: even "pills" are square */
+  /* The only exception: --radius-circle for one-off avatars */
+  --radius-circle: 999px;
+
+  /* ---------- Borders ---------- */
+  --border-thin:    1px solid var(--border);
+  --border-strong-rule: 1px solid var(--border-strong);
+  --border-accent-rule: 2px solid var(--accent);
+  --border-fg:      1px solid var(--fg);
+
+  /* ---------- Shadows — almost none. Hard offset only. ---------- */
+  --shadow-none:   none;
+  --shadow-hard:   4px 4px 0 var(--accent);
+  --shadow-hard-fg: 4px 4px 0 var(--fg);
+  --shadow-hard-signal: 4px 4px 0 var(--signal);
+
+  /* ---------- Motion ---------- */
+  --ease-out-sharp: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-in-sharp:  cubic-bezier(0.4, 0, 1, 1);
+  --ease-linear:    linear;
+
+  --dur-micro:  180ms;
+  --dur-ui:     320ms;
+  --dur-reveal: 600ms;
+
+  /* ---------- Grid ---------- */
+  --col-count:    12;
+  --gutter:       24px;
+  --container:    1280px;
+  --container-wide: 1440px;
+
+  /* ---------- Layered z ---------- */
+  --z-base:    0;
+  --z-raise:   10;
+  --z-nav:     100;
+  --z-modal:   500;
+  --z-cursor:  999;
+}
+
+/* ============================================================
+   Semantic element styling — apply these classes for instant
+   on-brand text without re-specifying tokens.
+   ============================================================ */
+
+.ds-canvas {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ds-display-xl,
+.ds-display-l,
+.ds-display-m,
+.ds-h1, .ds-h2, .ds-h3, .ds-h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: var(--ls-display);
+  line-height: var(--lh-display);
+  color: var(--fg);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.ds-display-xl { font-size: var(--fs-display-xl); font-weight: 800; line-height: var(--lh-tight); }
+.ds-display-l  { font-size: var(--fs-display-l);  font-weight: 800; line-height: var(--lh-tight); }
+.ds-display-m  { font-size: var(--fs-display-m);  font-weight: 700; }
+.ds-h1 { font-size: var(--fs-h1); letter-spacing: var(--ls-heading); line-height: var(--lh-heading); }
+.ds-h2 { font-size: var(--fs-h2); letter-spacing: var(--ls-heading); line-height: var(--lh-heading); font-weight: 600; }
+.ds-h3 { font-size: var(--fs-h3); letter-spacing: var(--ls-heading); line-height: var(--lh-heading); font-weight: 600; }
+.ds-h4 { font-size: var(--fs-h4); letter-spacing: var(--ls-heading); line-height: var(--lh-heading); font-weight: 600; }
+
+.ds-body-l { font-family: var(--font-body); font-size: var(--fs-body-l); line-height: var(--lh-loose); color: var(--fg); }
+.ds-body   { font-family: var(--font-body); font-size: var(--fs-body);   line-height: var(--lh-body);  color: var(--fg); }
+.ds-body-s { font-family: var(--font-body); font-size: var(--fs-body-s); line-height: var(--lh-body);  color: var(--fg-muted); }
+.ds-caption { font-family: var(--font-body); font-size: var(--fs-caption); color: var(--fg-muted); }
+
+.ds-mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  font-feature-settings: "calt" 0, "liga" 0;
+  letter-spacing: 0;
+  color: var(--fg);
+}
+.ds-mono-cap {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-mono-cap);
+  color: var(--fg-muted);
+  font-weight: 500;
+}
+
+.ds-accent      { color: var(--accent); }
+.ds-signal      { color: var(--signal); }
+.ds-muted       { color: var(--fg-muted); }
+.ds-faint       { color: var(--fg-faint); }
+
+a.ds-link, .ds-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 1px;
+  transition: color var(--dur-micro) var(--ease-out-sharp),
+              background var(--dur-micro) var(--ease-out-sharp);
+}
+a.ds-link:hover, .ds-link:hover {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--canvas); }
+body {
+  font-family: var(--font-body);
+  color: var(--fg);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  cursor: none;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; }
+
+/* ----- Layout shell ----- */
+.page { max-width: 1320px; margin: 0 auto; padding: 0 32px; }
+@media (max-width: 720px){ .page{ padding: 0 20px; } }
+
+/* ----- Custom cursor ----- */
+.cursor {
+  position: fixed; top: 0; left: 0; width: 12px; height: 20px;
+  background: var(--accent); pointer-events: none; z-index: 999;
+  transform: translate(-50%, -50%);
+  transition: width 180ms var(--ease-out-sharp), height 180ms var(--ease-out-sharp), background 180ms;
+  mix-blend-mode: difference;
+}
+.cursor.on-interactive { width: 28px; height: 28px; }
+@media (max-width: 900px){
+  body{ cursor: auto; }
+  .cursor{ display:none; }
+}
+
+/* ----- Sections ----- */
+section { padding: 96px 0; border-top: 1px solid var(--border); }
+@media (max-width: 720px){ section{ padding: 64px 0; } }
+section:first-of-type { border-top: 0; }
+
+/* ----- Generic helpers ----- */
+.section-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 48px; gap: 24px; flex-wrap: wrap;
+}
+.section-num {
+  font-family: var(--font-mono); font-size: 12px;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--fg-muted);
+}
+.section-num .acc { color: var(--accent); }
+.section-title {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: var(--fs-display-m); letter-spacing: -0.02em; line-height: 1.05;
+  margin: 0; max-width: 18ch;
+}
+
+/* ----- Buttons ----- */
+.btn {
+  font-family: var(--font-display); font-weight: 700; font-size: 14px;
+  letter-spacing: 0.02em; text-transform: uppercase;
+  padding: 16px 24px; border: 0; cursor: none;
+  display: inline-flex; align-items: center; gap: 12px;
+  transition: all 180ms var(--ease-out-sharp);
+}
+.btn.primary { background: var(--accent); color: var(--accent-ink); }
+.btn.primary:hover { box-shadow: var(--shadow-hard-fg); transform: translate(-3px,-3px); }
+.btn.ghost { background: transparent; color: var(--fg); border: 1px solid var(--fg); }
+.btn.ghost:hover { background: var(--fg); color: var(--canvas); }
+.btn.signal { background: var(--signal); color: var(--canvas); }
+.btn.signal:hover { box-shadow: var(--shadow-hard-fg); transform: translate(-3px,-3px); }
+.btn .arr { font-family: var(--font-mono); }
+
+/* ----- Reveal: mask-up ----- */
+@keyframes maskUp { 0% { transform: translateY(100%); } 100% { transform: translateY(0); } }
+.mask { display: inline-block; overflow: hidden; vertical-align: bottom; }
+.mask > span { display: inline-block; transform: translateY(0); animation: maskUp 0.7s var(--ease-out-sharp) both; }
+.mask.delay-1 > span { animation-delay: 0.05s; }
+.mask.delay-2 > span { animation-delay: 0.18s; }
+.mask.delay-3 > span { animation-delay: 0.32s; }
+.mask.delay-4 > span { animation-delay: 0.48s; }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(200,255,31,.6); }
+      100% { box-shadow: 0 0 0 8px rgba(200,255,31,0); }
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    @keyframes slideHero {
+      0%, 100% { transform: translateX(-100%); }
+      50% { transform: translateX(330%); }
+    }
+    section + section { border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <div class="cursor" id="cursor"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel">
+
+// ===== Nav.jsx =====
+// Nav.jsx — top navigation rail with mark, anchors, status pill
+const navStyles = {
+  wrap: {
+    position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+    background: 'rgba(10,11,13,0.95)',
+    borderBottom: '1px solid var(--border)',
+  },
+  inner: {
+    maxWidth: 1320, margin: '0 auto', padding: '14px 32px',
+    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+  },
+  brand: { display: 'flex', alignItems: 'center', gap: 12 },
+  brandName: {
+    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 18,
+    letterSpacing: '-0.02em', color: 'var(--fg)',
+  },
+  links: { display: 'flex', gap: 28, alignItems: 'center' },
+  link: {
+    fontFamily: 'var(--font-mono)', fontSize: 12,
+    textTransform: 'uppercase', letterSpacing: '0.08em',
+    color: 'var(--fg-muted)', cursor: 'none',
+    transition: 'color 180ms var(--ease-out-sharp)',
+  },
+  status: {
+    display: 'flex', alignItems: 'center', gap: 8,
+    fontFamily: 'var(--font-mono)', fontSize: 11,
+    textTransform: 'uppercase', letterSpacing: '0.08em',
+    color: 'var(--fg)',
+    border: '1px solid var(--border-strong)',
+    padding: '6px 10px',
+  },
+  dot: {
+    width: 6, height: 6, background: 'var(--accent)',
+    boxShadow: '0 0 0 0 rgba(200,255,31,.6)',
+    animation: 'pulse 1.8s infinite',
+  },
+};
+
+function Nav() {
+  const [hover, setHover] = React.useState(null);
+  const items = [
+    { id: 'principles', n: '01', label: 'Принципы' },
+    { id: 'portfolio', n: '02', label: 'Кейсы' },
+    { id: 'process', n: '03', label: 'Процесс' },
+    { id: 'reviews', n: '04', label: 'Отзывы' },
+    { id: 'contact', n: '05', label: 'Контакты' },
+  ];
+  return (
+    <nav style={navStyles.wrap}>
+      <div style={navStyles.inner}>
+        <a href="#top" style={navStyles.brand} className="interactive">
+          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSJub25lIj4KICAKICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9Im5vbmUiPjwvcmVjdD4KICA8cGF0aCBkPSJNMTQgOCBMNiA4IEw2IDU2IEwxNCA1NiIgc3Ryb2tlPSIjQzhGRjFGIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJzcXVhcmUiIHN0cm9rZS1saW5lam9pbj0ibWl0ZXIiPjwvcGF0aD4KICA8cGF0aCBkPSJNNTAgOCBMNTggOCBMNTggNTYgTDUwIDU2IiBzdHJva2U9IiNDOEZGMUYiIHN0cm9rZS13aWR0aD0iNCIgc3Ryb2tlLWxpbmVjYXA9InNxdWFyZSIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciI+PC9wYXRoPgogIDxwYXRoIGQ9Ik00MCAxNiBMMjQgNDgiIHN0cm9rZT0iI0YyRjJFRSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0ic3F1YXJlIj48L3BhdGg+Cjwvc3ZnPg==" width="28" height="28" alt="" />
+          <span style={navStyles.brandName}>DEVCARD</span>
+        </a>
+        <div style={navStyles.links}>
+          {items.map(it => (
+            <a
+              key={it.id} href={`#${it.id}`}
+              className="interactive"
+              style={{
+                ...navStyles.link,
+                color: hover === it.id ? 'var(--accent)' : 'var(--fg-muted)',
+              }}
+              onMouseEnter={() => setHover(it.id)}
+              onMouseLeave={() => setHover(null)}
+            >
+              <span style={{ color: 'var(--fg-faint)' }}>[{it.n}] </span>{it.label}
+            </a>
+          ))}
+        </div>
+        <div style={navStyles.status}>
+          <span style={navStyles.dot}></span>
+          AVAILABLE / МАЙ
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+
+// ===== Hero.jsx =====
+// Hero.jsx — display-XL headline, mono garnish, primary CTA, generative graphic
+const heroStyles = {
+  wrap: {
+    position: 'relative', paddingTop: 140, paddingBottom: 96,
+    borderTop: 'none', minHeight: '100vh',
+    display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+  },
+  meta: {
+    display: 'flex', justifyContent: 'space-between',
+    fontFamily: 'var(--font-mono)', fontSize: 12,
+    textTransform: 'uppercase', letterSpacing: '0.08em',
+    color: 'var(--fg-muted)', marginBottom: 32,
+  },
+  metaItem: { display: 'flex', alignItems: 'center', gap: 8 },
+  headline: {
+    fontFamily: 'var(--font-display)', fontWeight: 800,
+    fontSize: 'var(--fs-display-xl)', lineHeight: 0.92,
+    letterSpacing: '-0.04em', color: 'var(--fg)',
+    margin: 0,
+  },
+  accent: { color: 'var(--accent)' },
+  caret: {
+    display: 'inline-block', width: '0.55em', height: '0.85em',
+    background: 'var(--accent)', verticalAlign: '-0.05em',
+    marginLeft: '0.1em',
+    animation: 'blink 1s steps(2) infinite',
+  },
+  sub: {
+    fontFamily: 'var(--font-body)', fontSize: 20, lineHeight: 1.55,
+    color: 'var(--fg-muted)', maxWidth: 520, marginTop: 32,
+  },
+  ctaRow: { display: 'flex', gap: 16, marginTop: 40, flexWrap: 'wrap' },
+  scroll: {
+    display: 'flex', alignItems: 'center', gap: 12,
+    fontFamily: 'var(--font-mono)', fontSize: 11,
+    textTransform: 'uppercase', letterSpacing: '0.08em',
+    color: 'var(--fg-muted)', marginTop: 96,
+  },
+  scrollBar: { width: 80, height: 1, background: 'var(--fg-muted)', position: 'relative', overflow: 'hidden' },
+  graphic: {
+    position: 'absolute', right: 32, top: 140, width: 280, opacity: 0.85,
+    pointerEvents: 'none',
+  },
+  fileTag: {
+    fontFamily: 'var(--font-mono)', fontSize: 11,
+    textTransform: 'uppercase', letterSpacing: '0.08em',
+    color: 'var(--fg-faint)', marginBottom: 16,
+  },
+};
+
+function Hero() {
+  return (
+    <section id="top" style={heroStyles.wrap}>
+      <div className="page" style={{ flex: 1, position: 'relative' }}>
+        <div style={heroStyles.meta}>
+          <div style={heroStyles.metaItem}>
+            <span style={{ color: 'var(--accent)' }}>●</span>
+            ALEKSEY / WEB DEVELOPER
+          </div>
+          <div style={heroStyles.metaItem}>MSK · UTC+3 · {new Date().getFullYear()}</div>
+        </div>
+
+        <div style={heroStyles.fileTag}>~/devcard/hero.html</div>
+
+        <h1 style={heroStyles.headline}>
+          Сайты за <span style={heroStyles.accent}>7&ndash;10</span><br/>
+          дней. Без&nbsp;воды.<span style={heroStyles.caret}></span>
+        </h1>
+
+        <p style={heroStyles.sub}>
+          Я пишу сайты руками. HTML, CSS, JS — без CMS-балласта, без шаблонов с ThemeForest.
+          Прототип за 48 часов, запуск к концу второй недели. Core Web Vitals в зелёной зоне.
+        </p>
+
+        <div style={heroStyles.ctaRow}>
+          <button className="btn primary interactive" onClick={() => document.getElementById('contact').scrollIntoView({behavior:'smooth'})}>
+            Заказать сайт <span className="arr">→</span>
+          </button>
+          <button className="btn ghost interactive" onClick={() => document.getElementById('portfolio').scrollIntoView({behavior:'smooth'})}>
+            Смотреть кейсы
+          </button>
+        </div>
+
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MDAgNDAwIiB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0ibm9uZSI+CiAgCiAgPGcgc3Ryb2tlPSIjRjJGMkVFIiBzdHJva2Utd2lkdGg9IjEuMiIgb3BhY2l0eT0iMC43Ij4KICAgIAogICAgPHBhdGggZD0iTTMwMCA4MCBMNTAwIDE4MCBMMzAwIDI4MCBMMTAwIDE4MCBaIj48L3BhdGg+CiAgICAKICAgIDxwYXRoIGQ9Ik0xMDAgMTgwIEwxMDAgMzAwIEwzMDAgNDAwIEwzMDAgMjgwIFoiPjwvcGF0aD4KICAgIAogICAgPHBhdGggZD0iTTUwMCAxODAgTDUwMCAzMDAgTDMwMCA0MDAgTDMwMCAyODAgWiI+PC9wYXRoPgogICAgCiAgICA8cGF0aCBkPSJNMTUwIDIwNSBMMzUwIDMwNSI+PC9wYXRoPgogICAgPHBhdGggZD0iTTIwMCAyMzAgTDQwMCAzMzAiPjwvcGF0aD4KICAgIDxwYXRoIGQ9Ik0yNTAgMjU1IEw0NTAgMzU1Ij48L3BhdGg+CiAgPC9nPgogIDxnIHN0cm9rZT0iI0M4RkYxRiIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogICAgPHBhdGggZD0iTTMwMCA4MCBMMzAwIDI4MCI+PC9wYXRoPgogICAgPGNpcmNsZSBjeD0iMzAwIiBjeT0iODAiIHI9IjQiIGZpbGw9IiNDOEZGMUYiPjwvY2lyY2xlPgogICAgPGNpcmNsZSBjeD0iMzAwIiBjeT0iMjgwIiByPSI0IiBmaWxsPSIjMEEwQjBEIj48L2NpcmNsZT4KICA8L2c+Cjwvc3ZnPg==" style={heroStyles.graphic} alt="" />
+
+        <div style={heroStyles.scroll}>
+          <span>SCROLL</span>
+          <div style={heroStyles.scrollBar}>
+            <div style={{ position:'absolute', top:0, left:0, width:'30%', height:'100%', background:'var(--accent)', animation:'slideHero 2.4s var(--ease-out-sharp) infinite' }}></div>
+          </div>
+          <span>[01 / 05]</span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+// ===== Principles.jsx =====
+// Principles.jsx — 4 numbered principle cards
+const principleStyles = {
+  grid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(4, 1fr)',
+    gap: 0,
+  },
+  card: {
+    border: '1px solid var(--border)',
+    padding: '28px 24px 24px',
+    minHeight: 260,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 16,
+    background: 'var(--canvas)',
+    transition: 'all 320ms var(--ease-out-sharp)',
+    position: 'relative',
+    cursor: 'none',
+  },
+  num: {
+    fontFamily: 'var(--font-mono)', fontSize: 12,
+    textTransform: 'uppercase', letterSpacing: '0.08em',
+    color: 'var(--fg-faint)',
+  },
+  title: {
+    fontFamily: 'var(--font-display)', fontWeight: 700,
+    fontSize: 32, letterSpacing: '-0.02em', lineHeight: 1,
+    color: 'var(--fg)',
+  },
+  desc: {
+    fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.6,
+    color: 'var(--fg-muted)',
+  },
+  meta: {
+    marginTop: 'auto',
+    fontFamily: 'var(--font-mono)', fontSize: 11,
+    textTransform: 'uppercase', letterSpacing: '0.08em',
+    color: 'var(--accent)',
+  },
+};
+
+const PRINCIPLES = [
+  { n: '01', title: 'Скорость', desc: 'Прототип за 48 часов. Запуск за 7–10 дней. Без срывов сроков — пишу в выходные, если нужно.', meta: '7–10 ДНЕЙ' },
+  { n: '02', title: 'Кастом', desc: 'Каждый сайт верстается с нуля под задачу. Никаких готовых тем, никакого CMS-балласта.', meta: 'HAND-WRITTEN' },
+  { n: '03', title: 'Правки', desc: '2–3 раунда правок включены в цену. Изменение текстов, цветов, мелкие анимации — без сюрпризов.', meta: 'INCLUDED' },
+  { n: '04', title: 'Прозрачность', desc: 'Доступ к git-репозиторию с первого дня. Видите, как растёт код, и можете остановить в любой момент.', meta: 'GIT FROM DAY 1' },
+];
+
+function Principles() {
+  const [hover, setHover] = React.useState(null);
+  return (
+    <section id="principles">
+      <div className="page">
+        <div className="section-head">
+          <div>
+            <div className="section-num">[<span className="acc" style={{color:'var(--accent)'}}>01</span> / 05] · ПРИНЦИПЫ</div>
+            <h2 className="section-title" style={{ marginTop: 12 }}>Как я работаю.<br/>Четыре правила.</h2>
+          </div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--fg-muted)', maxWidth: 280, textTransform: 'uppercase', letterSpacing: '0.08em', lineHeight: 1.6 }}>
+            // Без агентств. Без воды.<br/>// Только то, что отгружается.
+          </div>
+        </div>
+
+        <div style={principleStyles.grid}>
+          {PRINCIPLES.map((p, i) => {
+            const isHover = hover === i;
+            return (
+              <div
+                key={p.n}
+                className="interactive"
+                style={{
+                  ...principleStyles.card,
+                  borderLeft: i > 0 ? 'none' : '1px solid var(--border)',
+                  background: isHover ? 'var(--canvas-raise)' : 'var(--canvas)',
+                  transform: isHover ? 'translateY(-4px)' : 'translateY(0)',
+                  boxShadow: isHover ? '0 4px 0 var(--accent)' : 'none',
+                }}
+                onMouseEnter={() => setHover(i)}
+                onMouseLeave={() => setHover(null)}
+              >
+                <div style={principleStyles.num}>[{p.n}]</div>
+                <div style={principleStyles.title}>{p.title}</div>
+                <div style={principleStyles.desc}>{p.desc}</div>
+                <div style={principleStyles.meta}>// {p.meta}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+// ===== Portfolio.jsx =====
+// Portfolio.jsx — case grid with metrics, NOT just thumbnails (per brief)
+const portfolioStyles = {
+  grid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    gap: 0,
+  },
+  case: {
+    border: '1px solid var(--border)',
+    padding: '32px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 24,
+    background: 'var(--canvas)',
+    transition: 'background 320ms var(--ease-out-sharp)',
+    cursor: 'none',
+    minHeight: 380,
+  },
+  top: { display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' },
+  num: {
+    fontFamily: 'var(--font-mono)', fontSize: 12,
+    textTransform: 'uppercase', letterSpacing: '0.08em',
+    color: 'var(--fg-muted)',
+  },
+  year: {
+    fontFamily: 'var(--font-mono)', fontSize: 11,
+    textTransform: 'uppercase', letterSpacing: '0.08em',
+    color: 'var(--fg-faint)',
+  },
+  thumb: {
+    width: '100%', height: 180, background: 'var(--canvas-raise)',
+    border: '1px solid var(--border)',
+    position: 'relative', overflow: 'hidden',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+  },
+  metricsRow: { display: 'flex', gap: 32, paddingTop: 8, borderTop: '1px solid var(--border)' },
+  metricBlock: { display: 'flex', flexDirection: 'column', gap: 4 },
+  metricVal: {
+    fontFamily: 'var(--font-display)', fontWeight: 800,
+    fontSize: 36, letterSpacing: '-0.03em', lineHeight: 1,
+    color: 'var(--accent)',
+  },
+  metricLab: {
+    fontFamily: 'var(--font-mono)', fontSize: 10,
+    textTransform: 'uppercase', letterSpacing: '0.08em',
+    color: 'var(--fg-muted)',
+  },
+  title: {
+    fontFamily: 'var(--font-display)', fontWeight: 700,
+    fontSize: 28, letterSpacing: '-0.02em', lineHeight: 1.05,
+    color: 'var(--fg)',
+  },
+  tags: { display: 'flex', gap: 8, flexWrap: 'wrap' },
+  tag: {
+    fontFamily: 'var(--font-mono)', fontSize: 10,
+    textTransform: 'uppercase', letterSpacing: '0.08em',
+    padding: '4px 8px', border: '1px solid var(--border-strong)',
+    color: 'var(--fg-muted)',
+  },
+};
+
+const CASES = [
+  { n: '01', title: 'B2B-лендинг для финтех-сервиса', year: '2025',
+    role: 'Дизайн + вёрстка', tags: ['LANDING', 'GSAP', 'CRM'],
+    metrics: [['+34%', 'CONV.'], ['1.8s', 'LCP'], ['9 дн.', 'TURNAROUND']],
+    accent: '#C8FF1F', pattern: 'grid' },
+  { n: '02', title: 'Сайт-портфолио арт-директора', year: '2025',
+    role: 'Вёрстка + анимация', tags: ['SPA', 'SCROLLTRIGGER'],
+    metrics: [['100/100', 'PSI'], ['2.1s', 'LCP'], ['7 дн.', 'TURNAROUND']],
+    accent: '#C8FF1F', pattern: 'wireframe' },
+  { n: '03', title: 'Лендинг IT-стартапа SaaS', year: '2024',
+    role: 'Дизайн + код', tags: ['LANDING', 'A/B', 'SCHEMA'],
+    metrics: [['+58%', 'LEADS'], ['2.3s', 'LCP'], ['10 дн.', 'TURNAROUND']],
+    accent: '#C8FF1F', pattern: 'noise' },
+  { n: '04', title: 'Промо-сайт книги издательства', year: '2024',
+    role: 'Концепция + вёрстка', tags: ['LONGREAD', 'CUSTOM'],
+    metrics: [['12k', 'ПЕРЕХОДОВ'], ['1.6s', 'LCP'], ['8 дн.', 'TURNAROUND']],
+    accent: '#C8FF1F', pattern: 'iso' },
+];
+
+function CaseThumb({ pattern }) {
+  if (pattern === 'iso') {
+    return <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MDAgNDAwIiB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0ibm9uZSI+CiAgCiAgPGcgc3Ryb2tlPSIjRjJGMkVFIiBzdHJva2Utd2lkdGg9IjEuMiIgb3BhY2l0eT0iMC43Ij4KICAgIAogICAgPHBhdGggZD0iTTMwMCA4MCBMNTAwIDE4MCBMMzAwIDI4MCBMMTAwIDE4MCBaIj48L3BhdGg+CiAgICAKICAgIDxwYXRoIGQ9Ik0xMDAgMTgwIEwxMDAgMzAwIEwzMDAgNDAwIEwzMDAgMjgwIFoiPjwvcGF0aD4KICAgIAogICAgPHBhdGggZD0iTTUwMCAxODAgTDUwMCAzMDAgTDMwMCA0MDAgTDMwMCAyODAgWiI+PC9wYXRoPgogICAgCiAgICA8cGF0aCBkPSJNMTUwIDIwNSBMMzUwIDMwNSI+PC9wYXRoPgogICAgPHBhdGggZD0iTTIwMCAyMzAgTDQwMCAzMzAiPjwvcGF0aD4KICAgIDxwYXRoIGQ9Ik0yNTAgMjU1IEw0NTAgMzU1Ij48L3BhdGg+CiAgPC9nPgogIDxnIHN0cm9rZT0iI0M4RkYxRiIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogICAgPHBhdGggZD0iTTMwMCA4MCBMMzAwIDI4MCI+PC9wYXRoPgogICAgPGNpcmNsZSBjeD0iMzAwIiBjeT0iODAiIHI9IjQiIGZpbGw9IiNDOEZGMUYiPjwvY2lyY2xlPgogICAgPGNpcmNsZSBjeD0iMzAwIiBjeT0iMjgwIiByPSI0IiBmaWxsPSIjMEEwQjBEIj48L2NpcmNsZT4KICA8L2c+Cjwvc3ZnPg==" style={{ width: '70%', opacity: 0.8 }} alt=""/>;
+  }
+  if (pattern === 'grid') {
+    return <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iODAwIiB2aWV3Qm94PSIwIDAgODAwIDgwMCI+CiAgCiAgPGRlZnM+CiAgICA8cGF0dGVybiBpZD0iZG90Z3JpZCIgeD0iMCIgeT0iMCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KICAgICAgPGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9IiNGMkYyRUUiIGZpbGwtb3BhY2l0eT0iMC4wNiI+PC9jaXJjbGU+CiAgICA8L3BhdHRlcm4+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iODAwIiBmaWxsPSJ1cmwoI2RvdGdyaWQpIj48L3JlY3Q+Cjwvc3ZnPg==)', backgroundSize: '60px 60px', opacity: 0.6 }}>
+      <div style={{ position: 'absolute', inset: 24, border: '1px solid var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 32, color: 'var(--accent)', letterSpacing: '-0.03em' }}>FINTECH</div>
+    </div>;
+  }
+  if (pattern === 'wireframe') {
+    return <div style={{ position: 'absolute', inset: 0, padding: 24 }}>
+      <div style={{ height: 16, background: 'var(--fg)', opacity: 0.9, marginBottom: 10, width: '40%' }}></div>
+      <div style={{ height: 8, background: 'var(--fg-muted)', marginBottom: 6, width: '80%' }}></div>
+      <div style={{ height: 8, background: 'var(--fg-muted)', marginBottom: 16, width: '60%' }}></div>
+      <div style={{ height: 60, background: 'var(--canvas)', border: '1px solid var(--accent)' }}></div>
+      <div style={{ display: 'flex', gap: 6, marginTop: 12 }}>
+        <div style={{ flex: 1, height: 20, background: 'var(--accent)' }}></div>
+        <div style={{ flex: 1, height: 20, border: '1px solid var(--fg-muted)' }}></div>
+      </div>
+    </div>;
+  }
+  // noise
+  return <div style={{ position: 'absolute', inset: 0, background: 'url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgNjAwIDYwMCI+CiAgCiAgPGZpbHRlciBpZD0iZ3JhaW4iPgogICAgPGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuOSIgbnVtT2N0YXZlcz0iMiIgc3RpdGNoVGlsZXM9InN0aXRjaCIgc2VlZD0iMyI+PC9mZVR1cmJ1bGVuY2U+CiAgICA8ZmVDb2xvck1hdHJpeCB2YWx1ZXM9IjAgMCAwIDAgMC45NSYjeEE7ICAgICAgICAgICAgICAgICAgICAgICAgICAgMCAwIDAgMCAwLjk1JiN4QTsgICAgICAgICAgICAgICAgICAgICAgICAgICAwIDAgMCAwIDAuOTImI3hBOyAgICAgICAgICAgICAgICAgICAgICAgICAgIDAgMCAwIDAuMzUgMCI+PC9mZUNvbG9yTWF0cml4PgogIDwvZmlsdGVyPgogIDxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIiBmaWx0ZXI9InVybCgjZ3JhaW4pIj48L3JlY3Q+Cjwvc3ZnPg==) center/cover', opacity: 0.4 }}>
+    <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--accent)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>SaaS / 2024</div>
+  </div>;
+}
+
+function Portfolio() {
+  const [hover, setHover] = React.useState(null);
+  return (
+    <section id="portfolio">
+      <div className="page">
+        <div className="section-head">
+          <div>
+            <div className="section-num">[<span style={{color:'var(--accent)'}}>02</span> / 05] · КЕЙСЫ</div>
+            <h2 className="section-title" style={{ marginTop: 12 }}>4 кейса.<br/>Метрики, не картинки.</h2>
+          </div>
+          <a href="#" className="interactive" style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+            ВСЕ КЕЙСЫ →
+          </a>
+        </div>
+
+        <div style={portfolioStyles.grid}>
+          {CASES.map((c, i) => {
+            const col = i % 2;
+            const row = Math.floor(i / 2);
+            return (
+              <div
+                key={c.n}
+                className="interactive"
+                style={{
+                  ...portfolioStyles.case,
+                  borderLeft: col > 0 ? 'none' : '1px solid var(--border)',
+                  borderTop: row > 0 ? 'none' : '1px solid var(--border)',
+                  background: hover === i ? 'var(--canvas-raise)' : 'var(--canvas)',
+                }}
+                onMouseEnter={() => setHover(i)}
+                onMouseLeave={() => setHover(null)}
+              >
+                <div style={portfolioStyles.top}>
+                  <span style={portfolioStyles.num}>[ КЕЙС / {c.n} ]</span>
+                  <span style={portfolioStyles.year}>{c.year} · {c.role}</span>
+                </div>
+                <div style={portfolioStyles.thumb}>
+                  <CaseThumb pattern={c.pattern} />
+                </div>
+                <h3 style={portfolioStyles.title}>{c.title}</h3>
+                <div style={portfolioStyles.metricsRow}>
+                  {c.metrics.map(([v, l], k) => (
+                    <div key={k} style={portfolioStyles.metricBlock}>
+                      <div style={portfolioStyles.metricVal}>{v}</div>
+                      <div style={portfolioStyles.metricLab}>{l}</div>
+                    </div>
+                  ))}
+                </div>
+                <div style={portfolioStyles.tags}>
+                  {c.tags.map(t => <span key={t} style={portfolioStyles.tag}>[{t}]</span>)}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+// ===== Process.jsx =====
+// Process.jsx — horizontal stepped timeline with day counts
+const processStyles = {
+  timeline: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(7, 1fr)',
+    gap: 0,
+    position: 'relative',
+  },
+  step: {
+    padding: '24px 18px 28px',
+    borderLeft: '1px solid var(--border)',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 12,
+    position: 'relative',
+    minHeight: 220,
+  },
+  stepLast: { borderRight: '1px solid var(--border)' },
+  num: {
+    fontFamily: 'var(--font-mono)', fontSize: 11,
+    textTransform: 'uppercase', letterSpacing: '0.08em',
+    color: 'var(--accent)',
+  },
+  days: {
+    fontFamily: 'var(--font-display)', fontWeight: 800,
+    fontSize: 52, letterSpacing: '-0.03em', lineHeight: 0.9,
+    color: 'var(--fg)',
+  },
+  daysU: {
+    fontFamily: 'var(--font-mono)', fontSize: 11,
+    color: 'var(--fg-muted)', textTransform: 'uppercase',
+    letterSpacing: '0.08em', marginTop: -4,
+  },
+  title: {
+    fontFamily: 'var(--font-display)', fontWeight: 700,
+    fontSize: 18, letterSpacing: '-0.01em', lineHeight: 1.1,
+    color: 'var(--fg)', marginTop: 'auto',
+  },
+  desc: {
+    fontFamily: 'var(--font-body)', fontSize: 12, lineHeight: 1.55,
+    color: 'var(--fg-muted)',
+  },
+  bar: {
+    height: 4, background: 'var(--accent)',
+    width: '100%', marginBottom: 0,
+  },
+  barInactive: { background: 'var(--neutral-800)' },
+  total: {
+    marginTop: 48,
+    display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
+    paddingTop: 24, borderTop: '1px solid var(--border-strong)',
+    flexWrap: 'wrap', gap: 16,
+  },
+  totalLab: {
+    fontFamily: 'var(--font-mono)', fontSize: 12,
+    textTransform: 'uppercase', letterSpacing: '0.08em',
+    color: 'var(--fg-muted)',
+  },
+  totalVal: {
+    fontFamily: 'var(--font-display)', fontWeight: 800,
+    fontSize: 48, letterSpacing: '-0.03em',
+    color: 'var(--accent)',
+  },
+};
+
+const STEPS = [
+  { n: '01', d: '1', u: 'day', t: 'ТЗ', desc: 'Бриф, созвон, итоговая спецификация.', active: true },
+  { n: '02', d: '2–3', u: 'days', t: 'Прототип', desc: 'Wireframe, согласование структуры.', active: true },
+  { n: '03', d: '3–4', u: 'days', t: 'Разработка', desc: 'Вёрстка, анимации, оптимизация.', active: false },
+  { n: '04', d: '1', u: 'day', t: 'Контент', desc: 'Тексты, картинки, мета-теги.', active: false },
+  { n: '05', d: '7–10', u: 'days', t: 'Live', desc: 'Рабочая версия на staging.', active: false },
+  { n: '06', d: '3–5', u: 'days', t: 'Правки', desc: '2–3 раунда правок включены.', active: false },
+  { n: '07', d: '1', u: 'day', t: 'Запуск', desc: 'Деплой, метрики, сдача.', active: false },
+];
+
+function Process() {
+  return (
+    <section id="process">
+      <div className="page">
+        <div className="section-head">
+          <div>
+            <div className="section-num">[<span style={{color:'var(--accent)'}}>03</span> / 05] · ПРОЦЕСС</div>
+            <h2 className="section-title" style={{ marginTop: 12 }}>От ТЗ до запуска<br/>за 7–10 дней.</h2>
+          </div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--fg-muted)', maxWidth: 320, textTransform: 'uppercase', letterSpacing: '0.08em', lineHeight: 1.6 }}>
+            // 50% предоплата → старт<br/>// 50% постоплата → запуск
+          </div>
+        </div>
+
+        <div style={processStyles.timeline}>
+          {STEPS.map((s, i) => (
+            <div
+              key={s.n}
+              style={{
+                ...processStyles.step,
+                ...(i === STEPS.length - 1 ? processStyles.stepLast : {}),
+              }}
+            >
+              <div style={{...processStyles.bar, ...(s.active ? {} : processStyles.barInactive)}}></div>
+              <div style={processStyles.num}>[{s.n}]</div>
+              <div>
+                <div style={processStyles.days}>{s.d}</div>
+                <div style={processStyles.daysU}>{s.u}</div>
+              </div>
+              <div style={processStyles.title}>{s.t}</div>
+              <div style={processStyles.desc}>{s.desc}</div>
+            </div>
+          ))}
+        </div>
+
+        <div style={processStyles.total}>
+          <div style={processStyles.totalLab}>// СУММАРНО ОТ ТЗ ДО ЗАПУСКА</div>
+          <div style={processStyles.totalVal}>10–14 дней <span style={{fontSize:24,color:'var(--fg-muted)'}}>→</span></div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+// ===== Reviews.jsx =====
+// Reviews.jsx — 3 review cards: avatar + quote + name + company
+const reviewStyles = {
+  grid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: 0,
+  },
+  card: {
+    border: '1px solid var(--border)',
+    padding: '28px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 24,
+    minHeight: 320,
+    background: 'var(--canvas)',
+  },
+  quoteMark: {
+    fontFamily: 'var(--font-display)', fontWeight: 800,
+    fontSize: 64, lineHeight: 0.6, letterSpacing: '-0.04em',
+    color: 'var(--accent)', height: 28,
+  },
+  quote: {
+    fontFamily: 'var(--font-body)', fontSize: 15, lineHeight: 1.65,
+    color: 'var(--fg)', flex: 1,
+  },
+  meta: { display: 'flex', alignItems: 'center', gap: 14, marginTop: 'auto' },
+  avatar: {
+    width: 44, height: 44, borderRadius: 999,
+    background: 'var(--neutral-800)',
+    fontFamily: 'var(--font-display)', fontWeight: 700,
+    fontSize: 16, color: 'var(--fg)',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    flexShrink: 0,
+    filter: 'grayscale(1)',
+  },
+  who: { display: 'flex', flexDirection: 'column', gap: 2 },
+  name: {
+    fontFamily: 'var(--font-display)', fontWeight: 700,
+    fontSize: 14, letterSpacing: '-0.01em', color: 'var(--fg)',
+  },
+  role: {
+    fontFamily: 'var(--font-mono)', fontSize: 11,
+    textTransform: 'uppercase', letterSpacing: '0.08em',
+    color: 'var(--fg-muted)',
+  },
+  stamp: {
+    fontFamily: 'var(--font-mono)', fontSize: 10,
+    textTransform: 'uppercase', letterSpacing: '0.08em',
+    color: 'var(--fg-faint)', marginBottom: -8,
+  },
+};
+
+const REVIEWS = [
+  {
+    init: 'МК', name: 'Мария Климова', role: 'CMO · Stack.Finance',
+    quote: 'Запустились на 8-й день. Сайт «летает», LCP — 1.6 секунды. Переписка по делу: без созвонов на час и без агентского самопиара.',
+    stamp: 'STACK.FINANCE / B2B',
+  },
+  {
+    init: 'ДС', name: 'Дмитрий Сергеев', role: 'CEO · Loopcraft',
+    quote: 'Прислал ссылку на git в первый день — реально видно, как код растёт. Все 3 раунда правок сделал в выходные. Рекомендую.',
+    stamp: 'LOOPCRAFT / SAAS',
+  },
+  {
+    init: 'АП', name: 'Анна Поляк', role: 'Art Director · Soft Studio',
+    quote: 'Работали без созвонов вообще. Тексты, кейсы, отзывы — всё через одну Notion-страницу. Получился точно тот сайт, что я хотела.',
+    stamp: 'SOFT STUDIO / PORTFOLIO',
+  },
+];
+
+function Reviews() {
+  return (
+    <section id="reviews">
+      <div className="page">
+        <div className="section-head">
+          <div>
+            <div className="section-num">[<span style={{color:'var(--accent)'}}>04</span> / 05] · ОТЗЫВЫ</div>
+            <h2 className="section-title" style={{ marginTop: 12 }}>Реальные клиенты.<br/>Реальные сайты.</h2>
+          </div>
+        </div>
+
+        <div style={reviewStyles.grid}>
+          {REVIEWS.map((r, i) => (
+            <div
+              key={r.init}
+              style={{
+                ...reviewStyles.card,
+                borderLeft: i > 0 ? 'none' : '1px solid var(--border)',
+              }}
+            >
+              <div style={reviewStyles.stamp}>// {r.stamp}</div>
+              <div style={reviewStyles.quoteMark}>“</div>
+              <div style={reviewStyles.quote}>{r.quote}</div>
+              <div style={reviewStyles.meta}>
+                <div style={reviewStyles.avatar}>{r.init}</div>
+                <div style={reviewStyles.who}>
+                  <div style={reviewStyles.name}>{r.name}</div>
+                  <div style={reviewStyles.role}>{r.role}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+// ===== Contact.jsx =====
+// Contact.jsx — AJAX form (faked) + direct contacts column
+const contactStyles = {
+  grid: {
+    display: 'grid',
+    gridTemplateColumns: '1.4fr 1fr',
+    gap: 0,
+    border: '1px solid var(--border)',
+  },
+  formCol: {
+    padding: 40,
+    borderRight: '1px solid var(--border)',
+    display: 'flex', flexDirection: 'column', gap: 24,
+  },
+  infoCol: {
+    padding: 40,
+    background: 'var(--canvas-raise)',
+    display: 'flex', flexDirection: 'column', gap: 28,
+  },
+  formGrid: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '24px 28px',
+  },
+  field: { display: 'flex', flexDirection: 'column', gap: 6 },
+  label: {
+    fontFamily: 'var(--font-mono)', fontSize: 10,
+    textTransform: 'uppercase', letterSpacing: '0.08em',
+    color: 'var(--fg-muted)',
+  },
+  input: {
+    fontFamily: 'var(--font-body)', fontSize: 15,
+    color: 'var(--fg)', background: 'transparent',
+    border: 0, borderBottom: '1px solid var(--border-strong)',
+    padding: '10px 0', outline: 'none',
+    transition: 'border-color 180ms var(--ease-out-sharp)',
+  },
+  textarea: {
+    fontFamily: 'var(--font-body)', fontSize: 15,
+    color: 'var(--fg)', background: 'transparent',
+    border: '1px solid var(--border-strong)',
+    padding: '12px', outline: 'none', resize: 'vertical',
+    minHeight: 100,
+  },
+  bigHead: {
+    fontFamily: 'var(--font-display)', fontWeight: 700,
+    fontSize: 32, letterSpacing: '-0.02em', lineHeight: 1.05,
+    margin: 0,
+  },
+  contactRow: {
+    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+    padding: '14px 0', borderBottom: '1px solid var(--border)',
+    fontFamily: 'var(--font-body)',
+  },
+  cLab: {
+    fontFamily: 'var(--font-mono)', fontSize: 11,
+    textTransform: 'uppercase', letterSpacing: '0.08em',
+    color: 'var(--fg-muted)',
+  },
+  cVal: {
+    fontFamily: 'var(--font-mono)', fontSize: 14,
+    color: 'var(--fg)',
+  },
+  hours: {
+    marginTop: 'auto',
+    fontFamily: 'var(--font-mono)', fontSize: 11,
+    color: 'var(--fg-muted)', textTransform: 'uppercase',
+    letterSpacing: '0.08em', lineHeight: 1.6,
+  },
+  submitted: {
+    fontFamily: 'var(--font-mono)', fontSize: 13,
+    color: 'var(--accent)', textTransform: 'uppercase',
+    letterSpacing: '0.08em', padding: '14px 16px',
+    border: '1px solid var(--accent)',
+    display: 'flex', alignItems: 'center', gap: 12,
+  },
+};
+
+function Contact() {
+  const [submitted, setSubmitted] = React.useState(false);
+  const onSubmit = (e) => {
+    e.preventDefault();
+    setSubmitted(true);
+  };
+
+  return (
+    <section id="contact">
+      <div className="page">
+        <div className="section-head">
+          <div>
+            <div className="section-num">[<span style={{color:'var(--accent)'}}>05</span> / 05] · КОНТАКТЫ</div>
+            <h2 className="section-title" style={{ marginTop: 12 }}>Напишите.<br/>Отвечу за час.</h2>
+          </div>
+        </div>
+
+        <div style={contactStyles.grid}>
+          <form style={contactStyles.formCol} onSubmit={onSubmit}>
+            <div style={contactStyles.formGrid}>
+              <div style={contactStyles.field}>
+                <label style={contactStyles.label}>ИМЯ</label>
+                <input style={contactStyles.input} type="text" placeholder="Алексей Иванов" defaultValue="Мария К." />
+              </div>
+              <div style={contactStyles.field}>
+                <label style={contactStyles.label}>КОМПАНИЯ</label>
+                <input style={contactStyles.input} type="text" placeholder="Loopcraft" />
+              </div>
+              <div style={contactStyles.field}>
+                <label style={contactStyles.label}>EMAIL / TELEGRAM</label>
+                <input style={contactStyles.input} type="text" placeholder="@username" defaultValue="@klimova" />
+              </div>
+              <div style={contactStyles.field}>
+                <label style={contactStyles.label}>БЮДЖЕТ · ₽</label>
+                <input style={contactStyles.input} type="text" placeholder="150 000 — 500 000" />
+              </div>
+            </div>
+            <div style={contactStyles.field}>
+              <label style={contactStyles.label}>О ЗАДАЧЕ</label>
+              <textarea style={contactStyles.textarea} placeholder="Нужен лендинг для нового продукта. Запуск к 15 июня, есть готовый текст и брифмейкер. Готовы обсудить."></textarea>
+            </div>
+            {submitted ? (
+              <div style={contactStyles.submitted}>
+                <span style={{ color: 'var(--accent)' }}>✓</span>
+                ОТПРАВЛЕНО · ОТВЕЧУ В ТЕЧЕНИЕ ЧАСА →
+              </div>
+            ) : (
+              <button type="submit" className="btn primary interactive" style={{ alignSelf: 'flex-start' }}>
+                Отправить бриф <span className="arr">→</span>
+              </button>
+            )}
+          </form>
+
+          <div style={contactStyles.infoCol}>
+            <h3 style={contactStyles.bigHead}>Или сразу<br/>в мессенджер.</h3>
+
+            <div>
+              <div style={contactStyles.contactRow}>
+                <span style={contactStyles.cLab}>TELEGRAM</span>
+                <a href="#" className="ds-link interactive" style={contactStyles.cVal}>@devcard</a>
+              </div>
+              <div style={contactStyles.contactRow}>
+                <span style={contactStyles.cLab}>WHATSAPP</span>
+                <a href="#" className="ds-link interactive" style={contactStyles.cVal}>+7 999 123-45-67</a>
+              </div>
+              <div style={contactStyles.contactRow}>
+                <span style={contactStyles.cLab}>EMAIL</span>
+                <a href="#" className="ds-link interactive" style={contactStyles.cVal}>hi@devcard.dev</a>
+              </div>
+              <div style={contactStyles.contactRow}>
+                <span style={contactStyles.cLab}>GITHUB</span>
+                <a href="#" className="ds-link interactive" style={contactStyles.cVal}>github.com/devcard</a>
+              </div>
+            </div>
+
+            <div style={contactStyles.hours}>
+              // ПН–ПТ · 10:00 – 20:00 MSK<br/>
+              // ОТВЕЧАЮ В ТЕЧЕНИЕ ЧАСА В РАБОЧЕЕ ВРЕМЯ
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+// ===== Footer.jsx =====
+// Footer.jsx — bottom rail with mark, copyright, social links
+const footerStyles = {
+  wrap: {
+    borderTop: '1px solid var(--border)',
+    background: 'var(--canvas-sink)',
+    padding: '48px 0 32px',
+  },
+  inner: {
+    maxWidth: 1320, margin: '0 auto', padding: '0 32px',
+    display: 'flex', flexDirection: 'column', gap: 48,
+  },
+  top: {
+    display: 'flex', justifyContent: 'space-between',
+    alignItems: 'flex-start', gap: 24, flexWrap: 'wrap',
+  },
+  brand: { display: 'flex', alignItems: 'center', gap: 14 },
+  brandName: {
+    fontFamily: 'var(--font-display)', fontWeight: 800,
+    fontSize: 32, letterSpacing: '-0.02em',
+    color: 'var(--fg)',
+  },
+  signoff: {
+    fontFamily: 'var(--font-display)', fontWeight: 700,
+    fontSize: 48, letterSpacing: '-0.03em', lineHeight: 1.05,
+    color: 'var(--fg)', maxWidth: '8ch',
+    textAlign: 'right',
+  },
+  signoffAcc: { color: 'var(--accent)' },
+  social: {
+    display: 'flex', gap: 24,
+  },
+  link: {
+    fontFamily: 'var(--font-mono)', fontSize: 12,
+    textTransform: 'uppercase', letterSpacing: '0.08em',
+    color: 'var(--fg-muted)',
+    transition: 'color 180ms var(--ease-out-sharp)',
+  },
+  bottom: {
+    display: 'flex', justifyContent: 'space-between',
+    paddingTop: 24, borderTop: '1px solid var(--border)',
+    fontFamily: 'var(--font-mono)', fontSize: 11,
+    textTransform: 'uppercase', letterSpacing: '0.08em',
+    color: 'var(--fg-faint)', gap: 24, flexWrap: 'wrap',
+  },
+};
+
+const SOCIAL = [
+  { l: 'GITHUB', h: '#' },
+  { l: 'BEHANCE', h: '#' },
+  { l: 'TELEGRAM', h: '#' },
+  { l: 'LINKEDIN', h: '#' },
+];
+
+function Footer() {
+  const [hover, setHover] = React.useState(null);
+  return (
+    <footer style={footerStyles.wrap}>
+      <div style={footerStyles.inner}>
+        <div style={footerStyles.top}>
+          <div>
+            <div style={footerStyles.brand}>
+              <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSJub25lIj4KICAKICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9Im5vbmUiPjwvcmVjdD4KICA8cGF0aCBkPSJNMTQgOCBMNiA4IEw2IDU2IEwxNCA1NiIgc3Ryb2tlPSIjQzhGRjFGIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJzcXVhcmUiIHN0cm9rZS1saW5lam9pbj0ibWl0ZXIiPjwvcGF0aD4KICA8cGF0aCBkPSJNNTAgOCBMNTggOCBMNTggNTYgTDUwIDU2IiBzdHJva2U9IiNDOEZGMUYiIHN0cm9rZS13aWR0aD0iNCIgc3Ryb2tlLWxpbmVjYXA9InNxdWFyZSIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciI+PC9wYXRoPgogIDxwYXRoIGQ9Ik00MCAxNiBMMjQgNDgiIHN0cm9rZT0iI0YyRjJFRSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0ic3F1YXJlIj48L3BhdGg+Cjwvc3ZnPg==" width="40" height="40" alt="" />
+              <span style={footerStyles.brandName}>DEVCARD</span>
+            </div>
+            <div style={{ ...footerStyles.link, marginTop: 24, lineHeight: 1.8 }}>
+              // HAND-WRITTEN HTML<br/>
+              // SHIPPED IN 7–10 DAYS<br/>
+              // BASED IN MSK · UTC+3
+            </div>
+          </div>
+          <div style={footerStyles.signoff}>
+            ship<br/>it<span style={footerStyles.signoffAcc}>.</span>
+          </div>
+        </div>
+
+        <div style={footerStyles.social}>
+          {SOCIAL.map((s, i) => (
+            <a
+              key={s.l} href={s.h}
+              className="interactive"
+              style={{
+                ...footerStyles.link,
+                color: hover === i ? 'var(--accent)' : 'var(--fg-muted)',
+              }}
+              onMouseEnter={() => setHover(i)}
+              onMouseLeave={() => setHover(null)}
+            >
+              {s.l} ↗
+            </a>
+          ))}
+        </div>
+
+        <div style={footerStyles.bottom}>
+          <div>© 2025 · DEVCARD · ALL RIGHTS NOT RESERVED, USE FREELY</div>
+          <div>BUILT WITH: HTML · CSS · JS · GSAP · VITE · NETLIFY</div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+
+
+    function App() {
+      return (
+        <div data-screen-label="DEVCARD — Personal Site">
+          <Nav />
+          <Hero />
+          <Principles />
+          <Portfolio />
+          <Process />
+          <Reviews />
+          <Contact />
+          <Footer />
+        </div>
+      );
+    }
+
+    (function(){
+      const cursor = document.getElementById('cursor');
+      let x = 0, y = 0, tx = 0, ty = 0;
+      document.addEventListener('mousemove', (e) => { tx = e.clientX; ty = e.clientY; });
+      function frame(){
+        x += (tx - x) * 0.35;
+        y += (ty - y) * 0.35;
+        cursor.style.transform = `translate(${x - 6}px, ${y - 10}px)`;
+        requestAnimationFrame(frame);
+      }
+      frame();
+      const obs = new MutationObserver(() => {
+        document.querySelectorAll('.interactive, button, a').forEach(el => {
+          if (el.dataset.cursorBound) return;
+          el.dataset.cursorBound = '1';
+          el.addEventListener('mouseenter', () => cursor.classList.add('on-interactive'));
+          el.addEventListener('mouseleave', () => cursor.classList.remove('on-interactive'));
+        });
+      });
+      obs.observe(document.body, { childList: true, subtree: true });
+    })();
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
