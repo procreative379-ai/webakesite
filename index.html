@@ -70,11 +70,40 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,11,13,.94
 .brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
 .brand span{font-family:var(--display);font-weight:800;font-size:19px;letter-spacing:-.02em}
 .nav-links{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.status-m{display:none}
 .nav-links a{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);white-space:nowrap;transition:color 180ms var(--ease)}
 .nav-links a:hover{color:var(--accent)}
 .nav-links a i{color:var(--faint);font-style:normal}
 .status{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;border:1px solid var(--n700);padding:6px 10px;white-space:nowrap;flex-shrink:0}
 .dot{width:6px;height:6px;background:var(--accent);animation:pulse 1.8s infinite;flex-shrink:0}
+
+/* бургер */
+.burger{display:none;width:44px;height:44px;margin-right:-10px;background:none;border:0;cursor:pointer;position:relative;flex-shrink:0}
+.burger i{position:absolute;left:11px;width:22px;height:2px;background:var(--fg);transition:transform 260ms var(--ease),opacity 160ms linear}
+.burger i:nth-child(1){top:15px}
+.burger i:nth-child(2){top:21px}
+.burger i:nth-child(3){top:27px}
+.burger[aria-expanded="true"] i:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger[aria-expanded="true"] i:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+@media(max-width:860px){
+  .nav-in{flex-wrap:nowrap;padding:11px 0}
+  .burger{display:block}
+  .nav-links{
+    position:fixed;left:0;right:0;top:var(--navh,58px);
+    flex-direction:column;align-items:stretch;gap:0;
+    background:var(--canvas);border-bottom:1px solid var(--n800);
+    padding:0 var(--pad);
+    max-height:0;overflow:hidden;visibility:hidden;
+    transition:max-height 300ms var(--ease),visibility 0s linear 300ms;
+  }
+  .nav-links.open{max-height:70vh;overflow-y:auto;visibility:visible;transition:max-height 320ms var(--ease),visibility 0s}
+  .nav-links a{padding:17px 0;border-bottom:1px solid var(--n800);font-size:13px;color:var(--fg)}
+  .nav-links a:last-child{border-bottom:0}
+  .status{display:none}
+  .nav-links .status-m{display:flex;align-items:center;gap:8px;padding:16px 0;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);border-bottom:0}
+}
 
 /* HERO */
 .hero{padding-top:clamp(104px,20vw,148px);padding-bottom:clamp(48px,8vw,80px)}
@@ -149,6 +178,26 @@ h1 .b{color:var(--accent)}
 .tier .pr{font-family:var(--display);font-weight:800;font-size:clamp(30px,3.6vw,40px);letter-spacing:-.02em;color:var(--accent)}
 .tier ul{list-style:none;font-size:13px;color:var(--muted);line-height:1.9}
 .tier li::before{content:'— ';color:var(--faint)}
+.tier-sub{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:-8px}
+.spec{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.spec-h{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-top:14px;padding-bottom:6px;border-bottom:1px solid var(--n800)}
+.spec-h:first-child{margin-top:0}
+.spec ul{list-style:none;font-size:13px;color:var(--muted);line-height:1.55;display:flex;flex-direction:column;gap:7px;margin-top:4px}
+.spec li{padding-left:16px;position:relative}
+.spec li::before{content:'';position:absolute;left:0;top:8px;width:6px;height:1px;background:var(--n500)}
+
+.excl{border:1px solid var(--n800);margin-top:32px;padding:28px 24px}
+.excl-h{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--signal);margin-bottom:20px}
+.excl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px 32px}
+.excl-grid b{display:block;font-family:var(--display);font-weight:700;font-size:15px;margin-bottom:5px}
+.excl-grid span{font-size:13px;color:var(--muted);line-height:1.5}
+
+.rev-note{border:1px solid var(--n800);border-top:0;padding:28px 24px;background:var(--raise);display:flex;flex-direction:column;gap:12px}
+.rev-h{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent)}
+.rev-note p{font-size:14px;color:var(--muted);line-height:1.6;max-width:80ch}
+
+.tier .fix{margin-top:auto;padding-top:16px;border-top:1px solid var(--n800);font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);line-height:1.7}
+.tier .fix a{border-bottom:1px solid currentColor}
 
 /* REVIEWS */
 .rev{border:1px solid var(--n800);margin:-.5px 0 0 -.5px;padding:28px;display:flex;flex-direction:column;gap:18px;min-height:290px;background:var(--canvas)}
@@ -212,6 +261,36 @@ footer{border-top:1px solid var(--n800);background:var(--sink);padding:48px 0 30
 #ck a{color:var(--accent);border-bottom:1px solid currentColor}
 #ck button{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;padding:13px 22px;border:0;background:var(--accent);color:var(--ink);cursor:pointer;flex-shrink:0;transition:all 180ms var(--ease)}
 #ck button:hover{box-shadow:3px 3px 0 var(--fg);transform:translate(-2px,-2px)}
+
+/* ---- мобильная доводка ---- */
+@media(max-width:860px){
+  .hero{padding-top:calc(var(--navh,58px) + 32px)}
+  .stats{gap:18px}
+  .stats b{font-size:26px}
+  .case{padding:24px 20px;min-height:0}
+  .rule{min-height:0;padding:24px 20px}
+  .rev{min-height:0;padding:24px 20px}
+  .tier{padding:24px 20px}
+  .sec-head{margin-bottom:32px}
+  .cta-row .btn{flex:1 1 100%;justify-content:center}
+  .router-bar{font-size:10px;padding:11px 14px}
+}
+@media(max-width:520px){
+  .hero-top{font-size:10px}
+  h1{font-size:clamp(38px,11vw,60px)}
+  .lead{font-size:16px}
+  .f-slogan{text-align:left;max-width:none}
+  .f-bot,.f-top{gap:16px}
+  .stats{gap:14px}
+  .stats b{font-size:23px}
+  .shot{height:150px}
+  #ck .in{gap:14px}
+  #ck button{width:100%}
+}
+@media(max-width:380px){
+  .chips{gap:6px}
+  .chip{font-size:9px;padding:3px 6px}
+}
 </style>
 </head>
 <body>
@@ -226,14 +305,18 @@ footer{border-top:1px solid var(--n800);background:var(--sink);padding:48px 0 30
       </svg>
       <span>ЦЕХ&nbsp;7</span>
     </a>
-    <div class="nav-links">
+    <div class="nav-links" id="menu">
       <a href="#cases"><i>[02]</i> Кейсы</a>
       <a href="#price"><i>[04]</i> Цены</a>
       <a href="/brief.html"><i>[06]</i> Бриф</a>
       <a href="/blog.html"><i>[07]</i> Блог</a>
       <a href="#contact"><i>[08]</i> Контакты</a>
+      <div class="status-m"><span class="dot"></span>Свободен / август</div>
     </div>
     <div class="status"><span class="dot"></span>Свободен / август</div>
+    <button class="burger" id="burger" aria-label="Меню" aria-expanded="false" aria-controls="menu">
+      <i></i><i></i><i></i>
+    </button>
   </div>
 </nav>
 
@@ -393,24 +476,141 @@ footer{border-top:1px solid var(--n800);background:var(--sink);padding:48px 0 30
     <div class="sec-head">
       <div>
         <div class="eyebrow">[<b>04</b> / 08] · Прайс</div>
-        <h2>Три тарифа.<br>Без звёздочек.</h2>
+        <h2>Два тарифа.<br>Фикс, без звёздочек.</h2>
       </div>
       <div class="note">// 50% предоплата → старт<br>// 50% постоплата → отгрузка</div>
     </div>
+
     <div class="g3">
+
       <div class="tier">
-        <div class="lbl">[Тариф 01]</div><div class="nm">Лендинг</div><div class="pr">от 45 000 ₽</div>
-        <ul><li>Один экран, до 6 блоков</li><li>Домен + почта + Метрика</li><li>2 раунда правок</li><li>Отгрузка на 7-й день</li></ul>
+        <div class="lbl">[Тариф 01]</div>
+        <div class="nm">Лендинг</div>
+        <div class="pr">25 000 ₽</div>
+        <div class="tier-sub">Одна страница · отгрузка на 7-й день</div>
+
+        <div class="spec">
+          <div class="spec-h">Страница</div>
+          <ul>
+            <li>Одна страница, до 6 смысловых блоков</li>
+            <li>Уникальная вёрстка под задачу, без готовых тем</li>
+            <li>Адаптив: телефон, планшет, десктоп</li>
+            <li>Форма заявки с отправкой на вашу почту</li>
+          </ul>
+
+          <div class="spec-h">Обвязка</div>
+          <ul>
+            <li>Домен в зоне .ru на год — подбор и регистрация</li>
+            <li>Почта на домене: info@ваш-домен</li>
+            <li>Хостинг — 0 ₽/мес, бессрочно</li>
+            <li>SSL-сертификат, сайт работает по https</li>
+          </ul>
+
+          <div class="spec-h">Чтобы находили</div>
+          <ul>
+            <li>Яндекс.Метрика: установка, цели, вебвизор</li>
+            <li>robots.txt, sitemap.xml, мета-теги</li>
+            <li>Превью для мессенджеров и соцсетей</li>
+            <li>Заявка в Яндекс.Вебмастер на индексацию</li>
+          </ul>
+
+          <div class="spec-h">Документы и доступы</div>
+          <ul>
+            <li>Страница 404</li>
+            <li>Политика конфиденциальности и согласие на обработку ПДн</li>
+            <li>Доступ к git-репозиторию с первого дня</li>
+          </ul>
+        </div>
+
+        <div class="fix">Фиксированная цена. 3 раунда правок после сдачи.</div>
       </div>
+
       <div class="tier pick">
-        <div class="lbl">[Тариф 02 · чаще всего берут]</div><div class="nm">Мультистраничник</div><div class="pr">от 90 000 ₽</div>
-        <ul><li>До 5 экранов + блог</li><li>Домен + почта + Метрика</li><li>3 раунда правок</li><li>Отгрузка на 10-й день</li></ul>
+        <div class="lbl">[Тариф 02 · чаще всего берут]</div>
+        <div class="nm">Мультистраничник</div>
+        <div class="pr">35 000 ₽</div>
+        <div class="tier-sub">До 5 страниц · отгрузка на 10-й день</div>
+
+        <div class="spec">
+          <div class="spec-h">Всё из тарифа 01, плюс</div>
+          <ul>
+            <li>До 5 страниц вместо одной</li>
+            <li>Сквозные меню и подвал на всех страницах</li>
+            <li>Каталог или карточки — до 12 позиций</li>
+            <li>Раздел «Блог» с тремя стартовыми статьями</li>
+          </ul>
+
+          <div class="spec-h">Навигация</div>
+          <ul>
+            <li>Перелинковка между разделами</li>
+            <li>Хлебные крошки</li>
+            <li>Меню-бургер на телефоне</li>
+          </ul>
+
+          <div class="spec-h">Поиск</div>
+          <ul>
+            <li>Свои мета-теги на каждой странице</li>
+            <li>Микроразметка организации для Яндекса</li>
+            <li>Все страницы в sitemap</li>
+          </ul>
+
+          <div class="spec-h">Аналитика</div>
+          <ul>
+            <li>Цели по каждой форме отдельно</li>
+            <li>Отчёт: откуда пришли и что нажали</li>
+          </ul>
+        </div>
+
+        <div class="fix">Фиксированная цена. 3 раунда правок после сдачи.</div>
       </div>
+
       <div class="tier">
-        <div class="lbl">[Тариф 03]</div><div class="nm">Индивидуально</div><div class="pr">по брифу</div>
-        <ul><li>Сложные анимации, интеграции</li><li>Домен + почта + Метрика</li><li>Правки по договорённости</li><li>Срок считаем вместе</li></ul>
+        <div class="lbl">[Тариф 03]</div>
+        <div class="nm">Индивидуально</div>
+        <div class="pr">по брифу</div>
+        <div class="tier-sub">Считаем вместе после брифа</div>
+
+        <div class="spec">
+          <div class="spec-h">Когда нужен</div>
+          <ul>
+            <li>Больше 5 страниц или каталог от 12 позиций</li>
+            <li>Интеграции: CRM, оплата, личный кабинет</li>
+            <li>Сложные анимации и интерактив</li>
+            <li>Две языковые версии</li>
+            <li>Перенос и переделка большого сайта</li>
+          </ul>
+
+          <div class="spec-h">Как считаю</div>
+          <ul>
+            <li>Разбираю бриф и называю вилку в тот же день</li>
+            <li>Точная смета — после согласования структуры</li>
+            <li>Дальше тот же принцип: фикс, без доплат по ходу</li>
+          </ul>
+        </div>
+
+        <div class="fix">Расчёт бесплатно. <a href="/brief.html">Заполнить бриф →</a></div>
+      </div>
+
+    </div>
+
+    <div class="excl">
+      <div class="excl-h">Что не входит ни в один тариф</div>
+      <div class="excl-grid">
+        <div><b>Тексты с нуля</b><span>Ваши правлю и вычитываю бесплатно. Написать с чистого листа — отдельно.</span></div>
+        <div><b>Фотосъёмка</b><span>Работаю с вашими фото или подбираю стоковые.</span></div>
+        <div><b>Логотип и фирстиль</b><span>Есть логотип — встрою. Нет — обсуждаем отдельно.</span></div>
+        <div><b>Реклама и продвижение</b><span>Сайт готов к рекламе, но настройка кампаний — не моя часть.</span></div>
+        <div><b>Правки после третьего раунда</b><span>Дальше — 2 500 ₽/час, по факту и по согласованию.</span></div>
+        <div><b>Продление домена со 2-го года</b><span>Около 200–1 000 ₽/год напрямую регистратору, мимо меня.</span></div>
       </div>
     </div>
+
+    <div class="rev-note">
+      <div class="rev-h">Про правки</div>
+      <p>Три раунда после сдачи, в течение 14 дней. Раунд — это один список: собираете все замечания и присылаете разом. Тексты, цвета, замена фото, перестановка блоков — всё это входит. Не входит переделка структуры и новые блоки: это уже другой сайт, считаем отдельно.</p>
+      <p>Правки во время работы — до сдачи — не считаются и не ограничены. Ограничение начинается после того, как сайт принят.</p>
+    </div>
+
   </div>
 </section>
 
@@ -427,7 +627,7 @@ footer{border-top:1px solid var(--n800);background:var(--sink);padding:48px 0 30
     <div class="g3">
       <div class="cell" style="min-height:200px"><div class="mono" style="color:var(--accent)">// Что делает нейросеть</div><div style="font-size:14px;color:var(--muted);line-height:1.6">Черновую вёрстку, рутину, первые варианты текстов. То, на что раньше уходило четыре дня из семи.</div></div>
       <div class="cell" style="min-height:200px"><div class="mono" style="color:var(--accent)">// Что делаю я</div><div style="font-size:14px;color:var(--muted);line-height:1.6">Структуру, смысл, типографику, вычитку каждой строки кода и текста. Решаю, что останется, а что в мусор.</div></div>
-      <div class="cell" style="min-height:200px"><div class="mono" style="color:var(--accent)">// Что получаете вы</div><div style="font-size:14px;color:var(--muted);line-height:1.6">Ту же работу за неделю вместо месяца и за 45 тысяч вместо 300. Скорость — единственное, что изменилось.</div></div>
+      <div class="cell" style="min-height:200px"><div class="mono" style="color:var(--accent)">// Что получаете вы</div><div style="font-size:14px;color:var(--muted);line-height:1.6">Ту же работу за неделю вместо месяца и за 25 тысяч вместо 85. Скорость — единственное, что изменилось.</div></div>
     </div>
   </div>
 </section>
@@ -484,7 +684,7 @@ footer{border-top:1px solid var(--n800);background:var(--sink);padding:48px 0 30
           <div class="f"><label for="n">Имя</label><input id="n" name="name" type="text" placeholder="Ваше имя" required></div>
           <div class="f"><label for="c">Компания</label><input id="c" name="company" type="text" placeholder="Необязательно"></div>
           <div class="f"><label for="k">Email / Telegram</label><input id="k" name="contact" type="text" placeholder="@username или email" required></div>
-          <div class="f"><label for="b">Бюджет · ₽</label><input id="b" name="budget" type="text" placeholder="45 000 — 150 000"></div>
+          <div class="f"><label for="b">Бюджет · ₽</label><input id="b" name="budget" type="text" placeholder="25 000 или 35 000"></div>
         </div>
         <div class="f"><label for="t">О задаче</label><textarea id="t" name="task" placeholder="Нужен лендинг, есть тексты, хочу запуск через две недели."></textarea></div>
         <label class="consent">
@@ -564,17 +764,42 @@ footer{border-top:1px solid var(--n800);background:var(--sink);padding:48px 0 30
   "founder":{"@type":"Person","name":"Дмитрий Москаленко","jobTitle":"Веб-разработчик"},
   "areaServed":{"@type":"Country","name":"Россия"},
   "address":{"@type":"PostalAddress","addressLocality":"Москва","addressCountry":"RU"},
-  "priceRange":"45000-150000 RUB",
+  "priceRange":"25000-35000 RUB",
   "openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"10:00","closes":"20:00"},
   "hasOfferCatalog":{"@type":"OfferCatalog","name":"Тарифы","itemListElement":[
-    {"@type":"Offer","name":"Лендинг","price":"45000","priceCurrency":"RUB"},
-    {"@type":"Offer","name":"Мультистраничник","price":"90000","priceCurrency":"RUB"}
+    {"@type":"Offer","name":"Лендинг (одна страница)","price":"25000","priceCurrency":"RUB","description":"Одна страница до 6 блоков, домен, почта, Метрика, хостинг, 3 раунда правок"},
+    {"@type":"Offer","name":"Мультистраничник","price":"35000","priceCurrency":"RUB","description":"До 5 страниц с блогом и каталогом, домен, почта, Метрика, хостинг, 3 раунда правок"}
   ]}
 }
 </script>
 
 <script>
 (function(){
+  // ---- Бургер-меню ----
+  var nav=document.querySelector('nav'),
+      burger=document.getElementById('burger'),
+      menu=document.getElementById('menu');
+
+  function navH(){
+    document.documentElement.style.setProperty('--navh', nav.offsetHeight+'px');
+  }
+  navH();
+  window.addEventListener('resize',navH);
+  window.addEventListener('load',navH);
+
+  function close(){ menu.classList.remove('open'); burger.setAttribute('aria-expanded','false'); }
+  function toggle(){
+    var open=menu.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open?'true':'false');
+  }
+
+  if(burger){
+    burger.addEventListener('click',toggle);
+    menu.addEventListener('click',function(e){ if(e.target.tagName==='A') close(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+    window.addEventListener('resize',function(){ if(window.innerWidth>860) close(); });
+  }
+
   // ---- Форма -> Formspree -> info@tsekh7.ru ----
   var ENDPOINT='https://formspree.io/f/mnjelazj';
   var f=document.getElementById('lead'),ok=document.getElementById('done'),
