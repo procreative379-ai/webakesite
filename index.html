@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ЦЕХ 7 — сайты за 7 дней. Разработка на HTML/CSS/JS, Москва</title>
+<meta name="description" content="Делаю сайты за 7 дней: лендинги и многостраничники на чистом HTML/CSS/JS. Домен, почта на домене, Яндекс.Метрика и хостинг — включены. Прототип за 48 часов.">
+<meta name="author" content="Дмитрий Москаленко">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0A0B0D">
+<link rel="canonical" href="https://tsekh7.ru/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ЦЕХ 7">
+<meta property="og:title" content="ЦЕХ 7 — сайт за 7 дней">
+<meta property="og:description" content="Собираю с нейросетью, проверяю руками. Домен, почта и Метрика включены. Прототип за 48 часов.">
+<meta property="og:url" content="https://tsekh7.ru/">
+<meta property="og:image" content="https://tsekh7.ru/og.jpg">
+<meta property="og:locale" content="ru_RU">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ЦЕХ 7 — сайт за 7 дней">
+<meta name="twitter:description" content="Собираю с нейросетью, проверяю руками. Прототип за 48 часов.">
+<meta name="twitter:image" content="https://tsekh7.ru/og.jpg">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;800&family=Manrope:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --canvas:#0A0B0D; --raise:#121316; --sink:#050608;
+  --n900:#1A1C20; --n800:#25282E; --n700:#3A3E46; --n500:#6B7079;
+  --fg:#F2F2EE; --muted:#8E939C; --faint:#4A4E55;
+  --accent:#2F7BFF; --accent-dim:#1C5FCC; --ink:#0A0B0D; --signal:#FF4D2E;
+  --display:'Unbounded',system-ui,sans-serif;
+  --body:'Manrope',-apple-system,BlinkMacSystemFont,sans-serif;
+  --mono:'JetBrains Mono','SF Mono',ui-monospace,monospace;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --pad:clamp(20px,5vw,32px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--canvas);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button,input,textarea,select{font:inherit;color:inherit}
+::selection{background:var(--accent);color:var(--ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+.wrap{max-width:1320px;margin:0 auto;padding:0 var(--pad)}
+.mono{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.sec{padding:clamp(56px,10vw,96px) 0;border-top:1px solid var(--n800)}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:24px;flex-wrap:wrap;margin-bottom:48px}
+.eyebrow{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.eyebrow b{color:var(--accent);font-weight:400}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(30px,4.5vw,60px);letter-spacing:-.025em;line-height:1.05;margin-top:12px;max-width:19ch}
+.note{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);line-height:1.7;max-width:300px}
+
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(47,123,255,.6)}100%{box-shadow:0 0 0 8px rgba(47,123,255,0)}}
+@keyframes slide{0%,100%{transform:translateX(-100%)}50%{transform:translateX(330%)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,11,13,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--n800)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;row-gap:8px;padding:13px 0}
+.brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.brand span{font-family:var(--display);font-weight:800;font-size:19px;letter-spacing:-.02em}
+.nav-links{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.nav-links a{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);white-space:nowrap;transition:color 180ms var(--ease)}
+.nav-links a:hover{color:var(--accent)}
+.nav-links a i{color:var(--faint);font-style:normal}
+.status{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;border:1px solid var(--n700);padding:6px 10px;white-space:nowrap;flex-shrink:0}
+.dot{width:6px;height:6px;background:var(--accent);animation:pulse 1.8s infinite;flex-shrink:0}
+
+/* HERO */
+.hero{padding-top:clamp(104px,20vw,148px);padding-bottom:clamp(48px,8vw,80px)}
+.hero-top{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:28px;flex-wrap:wrap;gap:12px}
+.path{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);margin-bottom:14px}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(46px,9.5vw,128px);line-height:.94;letter-spacing:-.04em}
+h1 .b{color:var(--accent)}
+.cur{display:inline-block;width:.5em;height:.82em;background:var(--accent);vertical-align:-.04em;margin-left:.08em;animation:blink 1s steps(2) infinite}
+.lead{font-size:clamp(17px,2.2vw,20px);color:var(--muted);max-width:600px;margin-top:30px}
+.sub{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);margin-top:14px}
+.cta-row{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap}
+.btn{font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;padding:16px 24px;display:inline-flex;align-items:center;gap:12px;border:1px solid transparent;cursor:pointer;transition:all 180ms var(--ease)}
+.btn-fill{background:var(--accent);color:var(--ink)}
+.btn-fill:hover{box-shadow:4px 4px 0 var(--fg);transform:translate(-3px,-3px)}
+.btn-line{border-color:var(--fg);color:var(--fg);background:transparent}
+.btn-line:hover{background:var(--fg);color:var(--canvas)}
+
+/* SIGNATURE: маршрутный лист */
+.router{margin-top:clamp(48px,7vw,72px);border:1px solid var(--n800)}
+.router-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:12px 18px;border-bottom:1px solid var(--n800);background:var(--raise);font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.router-bar b{color:var(--fg);font-weight:500}
+.router-grid{display:grid;grid-template-columns:repeat(7,1fr)}
+.op{padding:18px 12px 20px;border-left:1px solid var(--n800);display:flex;flex-direction:column;gap:8px;min-height:150px}
+.op:first-child{border-left:0}
+.op .rail{height:3px;background:var(--n800)}
+.op.done .rail{background:var(--accent)}
+.op .d{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--faint)}
+.op .n{font-family:var(--display);font-weight:800;font-size:clamp(22px,2.6vw,32px);line-height:1;letter-spacing:-.03em}
+.op.done .n{color:var(--accent)}
+.op .t{font-family:var(--display);font-weight:700;font-size:13px;margin-top:auto}
+.op .x{font-size:11px;color:var(--muted);line-height:1.45}
+@media(max-width:860px){.router-grid{grid-template-columns:repeat(2,1fr)}.op{border-top:1px solid var(--n800)}.op:nth-child(odd){border-left:0}}
+@media(max-width:420px){.router-grid{grid-template-columns:1fr}.op{border-left:0}}
+
+/* GRIDS */
+.g4{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr))}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.cell{border:1px solid var(--n800);margin:-.5px 0 0 -.5px;background:var(--canvas);padding:28px 24px 24px;display:flex;flex-direction:column;gap:14px}
+
+.rule{border:1px solid var(--n800);margin:-.5px 0 0 -.5px;background:var(--canvas);padding:28px 24px 24px;min-height:258px;display:flex;flex-direction:column;gap:15px;transition:background 300ms var(--ease),transform 300ms var(--ease),box-shadow 300ms var(--ease)}
+.rule:hover{background:var(--raise);transform:translateY(-4px);box-shadow:0 4px 0 var(--accent)}
+.rule .idx{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--faint)}
+.rule .h{font-family:var(--display);font-weight:700;font-size:29px;letter-spacing:-.02em;line-height:1}
+.rule .p{font-size:14px;color:var(--muted);line-height:1.6}
+.rule .tag{margin-top:auto;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent)}
+
+/* CASES */
+.case{border:1px solid var(--n800);margin:-.5px 0 0 -.5px;background:var(--canvas);padding:30px;display:flex;flex-direction:column;gap:22px;min-height:400px;transition:background 300ms var(--ease)}
+.case:hover{background:var(--raise)}
+.case-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.case-top em{color:var(--faint);font-style:normal}
+.shot{width:100%;height:180px;background:var(--raise);border:1px solid var(--n800);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.shot .plate{position:absolute;inset:20px;border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;font-size:24px;color:var(--accent);letter-spacing:-.02em;text-align:center;line-height:1.15}
+.dots{background-image:radial-gradient(circle,var(--faint) 1px,transparent 1px);background-size:24px 24px}
+.hatch{background-image:repeating-linear-gradient(45deg,var(--faint) 0,var(--faint) 1px,transparent 1px,transparent 16px)}
+.case h3{font-family:var(--display);font-weight:700;font-size:25px;letter-spacing:-.02em;line-height:1.12}
+.stats{display:flex;gap:28px;padding-top:10px;border-top:1px solid var(--n800);flex-wrap:wrap}
+.stats b{display:block;font-family:var(--display);font-weight:800;font-size:32px;letter-spacing:-.03em;line-height:1;color:var(--accent)}
+.stats i{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-style:normal}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;padding:4px 8px;border:1px solid var(--n700);color:var(--muted)}
+.link{margin-top:auto;font-family:var(--mono);font-size:13px;color:var(--accent);border-bottom:1px solid currentColor;padding-bottom:1px;width:fit-content;transition:all 160ms var(--ease)}
+.link:hover{background:var(--accent);color:var(--ink);border-color:var(--accent)}
+
+/* PRICING */
+.tier{border:1px solid var(--n800);margin:-.5px 0 0 -.5px;padding:30px;display:flex;flex-direction:column;gap:18px;background:var(--canvas)}
+.tier.pick{border-color:var(--accent);background:var(--raise)}
+.tier .lbl{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.tier.pick .lbl{color:var(--accent)}
+.tier .nm{font-family:var(--display);font-weight:700;font-size:23px}
+.tier .pr{font-family:var(--display);font-weight:800;font-size:clamp(30px,3.6vw,40px);letter-spacing:-.02em;color:var(--accent)}
+.tier ul{list-style:none;font-size:13px;color:var(--muted);line-height:1.9}
+.tier li::before{content:'— ';color:var(--faint)}
+
+/* REVIEWS */
+.rev{border:1px solid var(--n800);margin:-.5px 0 0 -.5px;padding:28px;display:flex;flex-direction:column;gap:18px;min-height:290px;background:var(--canvas)}
+.rev .src{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint)}
+.rev .q{font-family:var(--display);font-weight:800;font-size:52px;line-height:.4;color:var(--accent);height:20px}
+.rev .txt{font-size:14px;line-height:1.65;flex:1}
+.who{display:flex;align-items:center;gap:13px;margin-top:auto}
+.av{width:40px;height:40px;border-radius:999px;background:var(--n800);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:14px;flex-shrink:0}
+.who .nm{font-family:var(--display);font-weight:700;font-size:13px}
+.who .rl{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+
+/* BLOG */
+.post{border:1px solid var(--n800);margin:-.5px 0 0 -.5px;padding:24px;display:flex;flex-direction:column;gap:13px;min-height:160px;background:var(--canvas);transition:background 240ms var(--ease)}
+.post:hover{background:var(--raise)}
+.post .dt{font-family:var(--mono);font-size:10px;color:var(--faint)}
+.post .ttl{font-family:var(--display);font-weight:700;font-size:18px;line-height:1.28}
+
+/* CONTACT */
+.contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));border:1px solid var(--n800)}
+form{padding:clamp(24px,4vw,40px);border-right:1px solid var(--n800);display:flex;flex-direction:column;gap:22px}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:22px 26px}
+.f{display:flex;flex-direction:column;gap:6px}
+.f label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.f input,.f textarea{background:transparent;border:0;border-bottom:1px solid var(--n700);padding:10px 0;font-size:15px;outline:none;transition:border-color 160ms var(--ease)}
+.f textarea{border:1px solid var(--n700);padding:12px;resize:vertical;min-height:100px}
+.f input:focus,.f textarea:focus{border-color:var(--accent)}
+.f input::placeholder,.f textarea::placeholder{color:var(--faint)}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.5;color:var(--muted);cursor:pointer}
+.consent input{margin-top:3px;width:16px;height:16px;accent-color:var(--accent);flex-shrink:0}
+.consent a{color:var(--accent);border-bottom:1px solid currentColor}
+.err{font-family:var(--mono);font-size:13px;color:var(--signal);text-transform:uppercase;letter-spacing:.08em;padding:14px 16px;border:1px solid var(--signal);line-height:1.6}
+.err a{color:var(--signal);border-bottom:1px solid currentColor}
+.ok{font-family:var(--mono);font-size:13px;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;padding:14px 16px;border:1px solid var(--accent);display:flex;align-items:center;gap:12px}
+.side{padding:clamp(24px,4vw,40px);background:var(--raise);display:flex;flex-direction:column;gap:26px}
+.side h3{font-family:var(--display);font-weight:700;font-size:27px;letter-spacing:-.02em;line-height:1.06}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid var(--n800)}
+.row span{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.row a{font-family:var(--mono);font-size:14px;color:var(--accent);border-bottom:1px solid currentColor}
+.row a:hover{background:var(--accent);color:var(--ink)}
+@media(max-width:719px){form{border-right:0;border-bottom:1px solid var(--n800)}}
+
+/* FOOTER */
+footer{border-top:1px solid var(--n800);background:var(--sink);padding:48px 0 30px}
+.f-in{display:flex;flex-direction:column;gap:42px}
+.f-top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap}
+.f-brand{display:flex;align-items:center;gap:14px}
+.f-brand span{font-family:var(--display);font-weight:800;font-size:27px;letter-spacing:-.02em}
+.f-meta{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:22px;line-height:1.8}
+.f-slogan{font-family:var(--display);font-weight:700;font-size:clamp(28px,4vw,40px);letter-spacing:-.03em;line-height:1.05;text-align:right;max-width:9ch}
+.f-links{display:flex;gap:22px;flex-wrap:wrap}
+.f-links a{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);transition:color 160ms var(--ease)}
+.f-links a:hover{color:var(--accent)}
+.f-bot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:22px;border-top:1px solid var(--n800);font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint)}
+.f-bot a{color:var(--faint)}
+.f-bot a:hover{color:var(--accent)}
+
+/* COOKIE */
+#ck{display:none;position:fixed;left:0;right:0;bottom:0;z-index:9999;background:var(--raise);border-top:1px solid var(--n700);padding:18px var(--pad)}
+#ck .in{max-width:1320px;margin:0 auto;display:flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:space-between}
+#ck p{font-size:13px;line-height:1.55;color:var(--muted);max-width:780px}
+#ck a{color:var(--accent);border-bottom:1px solid currentColor}
+#ck button{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;padding:13px 22px;border:0;background:var(--accent);color:var(--ink);cursor:pointer;flex-shrink:0;transition:all 180ms var(--ease)}
+#ck button:hover{box-shadow:3px 3px 0 var(--fg);transform:translate(-2px,-2px)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-in">
+    <a href="#top" class="brand" aria-label="ЦЕХ 7 — на главную">
+      <svg width="27" height="27" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+        <path d="M14 8 L6 8 L6 56 L14 56" stroke="#2F7BFF" stroke-width="4" stroke-linecap="square"/>
+        <path d="M50 8 L58 8 L58 56 L50 56" stroke="#2F7BFF" stroke-width="4" stroke-linecap="square"/>
+        <path d="M23 18 L43 18 L26 48" stroke="#F2F2EE" stroke-width="4" stroke-linecap="square"/>
+      </svg>
+      <span>ЦЕХ&nbsp;7</span>
+    </a>
+    <div class="nav-links">
+      <a href="#cases"><i>[02]</i> Кейсы</a>
+      <a href="#price"><i>[04]</i> Цены</a>
+      <a href="/brief.html"><i>[06]</i> Бриф</a>
+      <a href="/blog.html"><i>[07]</i> Блог</a>
+      <a href="#contact"><i>[08]</i> Контакты</a>
+    </div>
+    <div class="status"><span class="dot"></span>Свободен / август</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header id="top" class="hero">
+  <div class="wrap">
+    <div class="hero-top">
+      <div><span style="color:var(--accent)">●</span> Дмитрий Москаленко · веб-разработчик</div>
+      <div>МСК · UTC+3 · 2026</div>
+    </div>
+
+    <div class="path">~/tsekh7.ru/наряд-заказ</div>
+
+    <h1>Сайт за <span class="b">7</span><br>дней. Без&nbsp;воды.<span class="cur"></span></h1>
+
+    <p class="lead">Собираю с нейросетью, проверяю руками. Чистый HTML, CSS и JS — без CMS-балласта и тем с ThemeForest. Домен, почта на домене и Яндекс.Метрика уже в цене.</p>
+
+    <div class="sub">// один мастер · один станок · семь операций</div>
+
+    <div class="cta-row">
+      <a href="/brief.html" class="btn btn-fill">Заполнить бриф <span style="font-family:var(--mono)">→</span></a>
+      <a href="#cases" class="btn btn-line">Смотреть кейсы</a>
+    </div>
+
+    <!-- SIGNATURE: маршрутный лист -->
+    <div class="router">
+      <div class="router-bar">
+        <div>Маршрутный лист · <b>заказ №0001</b></div>
+        <div>Цикл: <b>7 смен</b> · Приёмка на 7-й</div>
+      </div>
+      <div class="router-grid">
+        <div class="op done"><div class="rail"></div><div class="d">СМЕНА</div><div class="n">1</div><div class="t">Бриф</div><div class="x">Задача, референсы, структура.</div></div>
+        <div class="op done"><div class="rail"></div><div class="d">СМЕНА</div><div class="n">2</div><div class="t">Прототип</div><div class="x">Каркас на согласование.</div></div>
+        <div class="op"><div class="rail"></div><div class="d">СМЕНА</div><div class="n">3</div><div class="t">Вёрстка</div><div class="x">Сетка, типографика, адаптив.</div></div>
+        <div class="op"><div class="rail"></div><div class="d">СМЕНА</div><div class="n">4</div><div class="t">Контент</div><div class="x">Тексты, картинки, мета-теги.</div></div>
+        <div class="op"><div class="rail"></div><div class="d">СМЕНА</div><div class="n">5</div><div class="t">Обвязка</div><div class="x">Домен, почта, Метрика.</div></div>
+        <div class="op"><div class="rail"></div><div class="d">СМЕНА</div><div class="n">6</div><div class="t">Правки</div><div class="x">2–3 раунда включены.</div></div>
+        <div class="op"><div class="rail"></div><div class="d">СМЕНА</div><div class="n">7</div><div class="t">Отгрузка</div><div class="x">Деплой, проверка, сдача.</div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- 01 ПРИНЦИПЫ -->
+<section class="sec" id="rules">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">[<b>01</b> / 08] · Принципы</div>
+        <h2>Как устроен цех.<br>Четыре правила.</h2>
+      </div>
+      <div class="note">// Без агентств. Без воды.<br>// Только то, что отгружается.</div>
+    </div>
+    <div class="g4">
+      <div class="rule"><div class="idx">[01]</div><div class="h">Такт</div><div class="p">Прототип на вторую смену, отгрузка на седьмую. Срок — обязательство, а не оценка.</div><div class="tag">// 7 дней</div></div>
+      <div class="rule"><div class="idx">[02]</div><div class="h">Штучно</div><div class="p">Каждый сайт верстается под задачу. Никаких готовых тем и CMS-балласта в фундаменте.</div><div class="tag">// hand-checked</div></div>
+      <div class="rule"><div class="idx">[03]</div><div class="h">Правки</div><div class="p">2–3 раунда в цене. Тексты, цвета, мелкие анимации — без счетов за каждую запятую.</div><div class="tag">// included</div></div>
+      <div class="rule"><div class="idx">[04]</div><div class="h">Открытый цех</div><div class="p">Доступ к git-репозиторию с первого дня. Домен, почта и Метрика — на мне.</div><div class="tag">// git from day 1</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 КЕЙСЫ -->
+<section class="sec" id="cases">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">[<b>02</b> / 08] · Кейсы</div>
+        <h2>4 заказа.<br>Ссылки, не скрины.</h2>
+      </div>
+    </div>
+    <div class="g2">
+
+      <article class="case">
+        <div class="case-top"><span>[ Заказ / 01 ]</span><em>2026 · Дизайн + вёрстка</em></div>
+        <div class="shot dots"><div class="plate">BRAND<br>MANAGER</div></div>
+        <h3>Сайт агентства бренд-менеджмента</h3>
+        <div class="stats">
+          <div><b>8 дн.</b><i>Цикл</i></div><div><b>1.7s</b><i>LCP</i></div><div><b>+30%</b><i>Заявок</i></div>
+        </div>
+        <div class="chips"><span class="chip">[LANDING]</span><span class="chip">[BRAND]</span></div>
+        <a class="link" href="https://brandmanager.su/" target="_blank" rel="noopener">brandmanager.su ↗</a>
+      </article>
+
+      <article class="case">
+        <div class="case-top"><span>[ Заказ / 02 ]</span><em>2026 · Вёрстка + каталог</em></div>
+        <div class="shot" style="padding:24px;align-items:stretch;flex-direction:column">
+          <div style="height:16px;background:var(--fg);opacity:.9;margin-bottom:10px;width:40%"></div>
+          <div style="height:8px;background:var(--muted);margin-bottom:6px;width:80%"></div>
+          <div style="height:8px;background:var(--muted);margin-bottom:16px;width:60%"></div>
+          <div style="height:56px;background:var(--canvas);border:1px solid var(--accent)"></div>
+          <div style="display:flex;gap:6px;margin-top:12px"><div style="flex:1;height:20px;background:var(--accent)"></div><div style="flex:1;height:20px;border:1px solid var(--muted)"></div></div>
+        </div>
+        <h3>Профильный сайт кофейного бренда</h3>
+        <div class="stats">
+          <div><b>9 дн.</b><i>Цикл</i></div><div><b>1.9s</b><i>LCP</i></div><div><b>100</b><i>PSI</i></div>
+        </div>
+        <div class="chips"><span class="chip">[BRAND]</span><span class="chip">[CATALOG]</span></div>
+        <a class="link" href="https://profilecoffee.ru/" target="_blank" rel="noopener">profilecoffee.ru ↗</a>
+      </article>
+
+      <article class="case">
+        <div class="case-top"><span>[ Заказ / 03 ]</span><em>2025 · Концепция + запись</em></div>
+        <div class="shot">
+          <svg width="100%" height="100%" viewBox="0 0 300 180" style="opacity:.7" aria-hidden="true">
+            <path d="M150 30 L240 80 L150 130 L60 80 Z" stroke="#F2F2EE" stroke-width="1" fill="none"/>
+            <path d="M60 80 L60 140 L150 180 L150 130 Z" stroke="#F2F2EE" stroke-width="1" fill="none"/>
+            <path d="M240 80 L240 140 L150 180 L150 130 Z" stroke="#F2F2EE" stroke-width="1" fill="none"/>
+            <path d="M150 30 L150 130" stroke="#2F7BFF" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3>Лендинг керамической студии</h3>
+        <div class="stats">
+          <div><b>7 дн.</b><i>Цикл</i></div><div><b>1.6s</b><i>LCP</i></div><div><b>+40%</b><i>Записей</i></div>
+        </div>
+        <div class="chips"><span class="chip">[LANDING]</span><span class="chip">[BOOKING]</span></div>
+        <a class="link" href="https://ceramick.ru/" target="_blank" rel="noopener">ceramick.ru ↗</a>
+      </article>
+
+      <article class="case">
+        <div class="case-top"><span>[ Заказ / 04 ]</span><em>2026 · Вёрстка + спецификации</em></div>
+        <div class="shot hatch"><div class="plate" style="background:var(--canvas)">BREW<br>TECHNOLOGY</div></div>
+        <h3>Страница обжарочного оборудования</h3>
+        <div class="stats">
+          <div><b>9 дн.</b><i>Цикл</i></div><div><b>2.0s</b><i>LCP</i></div><div><b>+25%</b><i>Запросов</i></div>
+        </div>
+        <div class="chips"><span class="chip">[EQUIPMENT]</span><span class="chip">[SPECS]</span></div>
+        <a class="link" href="https://brewtechology.ru/machine.html" target="_blank" rel="noopener">brewtechology.ru/machine ↗</a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- 03 ЧТО ВХОДИТ -->
+<section class="sec" id="included">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">[<b>03</b> / 08] · Комплектация</div>
+        <h2>Не только вёрстка.<br>Сайт под ключ.</h2>
+      </div>
+      <div class="note">// Никаких «сделаю сайт, дальше сами»<br>// Довожу до запуска</div>
+    </div>
+    <div class="g4">
+      <div class="cell"><div class="idx mono" style="color:var(--faint)">[01]</div><div style="font-family:var(--display);font-weight:700;font-size:20px">Красивый домен</div><div style="font-size:13px;color:var(--muted);line-height:1.5">Подбираю и регистрирую человеческое имя — не «site-123.ru».</div></div>
+      <div class="cell"><div class="idx mono" style="color:var(--faint)">[02]</div><div style="font-family:var(--display);font-weight:700;font-size:20px">Почта на домене</div><div style="font-size:13px;color:var(--muted);line-height:1.5">info@ваш-домен вместо @mail.ru — доверия больше с первого письма.</div></div>
+      <div class="cell"><div class="idx mono" style="color:var(--faint)">[03]</div><div style="font-family:var(--display);font-weight:700;font-size:20px">Яндекс.Метрика</div><div style="font-size:13px;color:var(--muted);line-height:1.5">Настраиваю цели и вебвизор — видно, кто пришёл и что нажал.</div></div>
+      <div class="cell"><div class="idx mono" style="color:var(--faint)">[04]</div><div style="font-family:var(--display);font-weight:700;font-size:20px">Хостинг бесплатно</div><div style="font-size:13px;color:var(--muted);line-height:1.5">Деплой на GitHub Pages — 0 ₽ за хостинг, без ежемесячных счетов.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 ЦЕНЫ -->
+<section class="sec" id="price">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">[<b>04</b> / 08] · Прайс</div>
+        <h2>Три тарифа.<br>Без звёздочек.</h2>
+      </div>
+      <div class="note">// 50% предоплата → старт<br>// 50% постоплата → отгрузка</div>
+    </div>
+    <div class="g3">
+      <div class="tier">
+        <div class="lbl">[Тариф 01]</div><div class="nm">Лендинг</div><div class="pr">от 45 000 ₽</div>
+        <ul><li>Один экран, до 6 блоков</li><li>Домен + почта + Метрика</li><li>2 раунда правок</li><li>Отгрузка на 7-й день</li></ul>
+      </div>
+      <div class="tier pick">
+        <div class="lbl">[Тариф 02 · чаще всего берут]</div><div class="nm">Мультистраничник</div><div class="pr">от 90 000 ₽</div>
+        <ul><li>До 5 экранов + блог</li><li>Домен + почта + Метрика</li><li>3 раунда правок</li><li>Отгрузка на 10-й день</li></ul>
+      </div>
+      <div class="tier">
+        <div class="lbl">[Тариф 03]</div><div class="nm">Индивидуально</div><div class="pr">по брифу</div>
+        <ul><li>Сложные анимации, интеграции</li><li>Домен + почта + Метрика</li><li>Правки по договорённости</li><li>Срок считаем вместе</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 ПРО НЕЙРОСЕТЬ -->
+<section class="sec" id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">[<b>05</b> / 08] · Метод</div>
+        <h2>Да, с нейросетью.<br>И это не стыдно.</h2>
+      </div>
+      <div class="note">// Инструмент не отменяет мастера<br>// Отвечаю за каждую строку</div>
+    </div>
+    <div class="g3">
+      <div class="cell" style="min-height:200px"><div class="mono" style="color:var(--accent)">// Что делает нейросеть</div><div style="font-size:14px;color:var(--muted);line-height:1.6">Черновую вёрстку, рутину, первые варианты текстов. То, на что раньше уходило четыре дня из семи.</div></div>
+      <div class="cell" style="min-height:200px"><div class="mono" style="color:var(--accent)">// Что делаю я</div><div style="font-size:14px;color:var(--muted);line-height:1.6">Структуру, смысл, типографику, вычитку каждой строки кода и текста. Решаю, что останется, а что в мусор.</div></div>
+      <div class="cell" style="min-height:200px"><div class="mono" style="color:var(--accent)">// Что получаете вы</div><div style="font-size:14px;color:var(--muted);line-height:1.6">Ту же работу за неделю вместо месяца и за 45 тысяч вместо 300. Скорость — единственное, что изменилось.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 ОТЗЫВЫ -->
+<section class="sec" id="reviews">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">[<b>06</b> / 08] · Отзывы</div>
+        <h2>Реальные клиенты.<br>Реальные сайты.</h2>
+      </div>
+    </div>
+    <div class="g3">
+      <div class="rev"><div class="src">// brandmanager.su</div><div class="q">“</div><div class="txt">Сделал сайт за неделю, всё по делу — без долгих согласований. Домен и почту тоже он настроил, я только оплатил.</div><div class="who"><div class="av">ЕК</div><div><div class="nm">Егор Крылов</div><div class="rl">Основатель, брендинговое агентство</div></div></div></div>
+      <div class="rev"><div class="src">// profilecoffee.ru</div><div class="q">“</div><div class="txt">Метрику подключил сразу — с первой недели видно, откуда приходят люди. Раньше вообще этого не понимали.</div><div class="who"><div class="av">МЛ</div><div><div class="nm">Марина Ли</div><div class="rl">Владелица кофейного бренда</div></div></div></div>
+      <div class="rev"><div class="src">// ceramick.ru</div><div class="q">“</div><div class="txt">Спросила, почему так быстро — рассказал честно про свой процесс. Результат не выглядит «сделано на бегу».</div><div class="who"><div class="av">ИТ</div><div><div class="nm">Ирина Титова</div><div class="rl">Керамическая студия</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 БЛОГ -->
+<section class="sec" id="blog">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">[<b>07</b> / 08] · Блог</div>
+        <h2>Пишу о том,<br>что делаю сам.</h2>
+      </div>
+      <a class="link" href="/blog.html">Все статьи →</a>
+    </div>
+    <div class="g3">
+      <a class="post" href="/blog.html"><div class="dt">// 18 июля 2026</div><div class="ttl">Как я делаю сайты с нейросетью — и почему это не стыдно</div></a>
+      <a class="post" href="/blog.html"><div class="dt">// 09 июля 2026</div><div class="ttl">GitHub Pages: бесплатный хостинг, который не хуже платного</div></a>
+      <a class="post" href="/blog.html"><div class="dt">// 28 июня 2026</div><div class="ttl">Домен без танцев с бубном: как выбрать и не облажаться</div></a>
+    </div>
+  </div>
+</section>
+
+<!-- 08 КОНТАКТЫ -->
+<section class="sec" id="contact">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">[<b>08</b> / 08] · Контакты</div>
+        <h2>Напишите.<br>Отвечу за час.</h2>
+      </div>
+      <div class="note">// Нужен точный расчёт?<br>// Заполните <a href="/brief.html" style="color:var(--accent);border-bottom:1px solid">бриф</a> — 12 вопросов</div>
+    </div>
+
+    <div class="contact">
+      <form id="lead" novalidate>
+        <div class="fields">
+          <div class="f"><label for="n">Имя</label><input id="n" name="name" type="text" placeholder="Ваше имя" required></div>
+          <div class="f"><label for="c">Компания</label><input id="c" name="company" type="text" placeholder="Необязательно"></div>
+          <div class="f"><label for="k">Email / Telegram</label><input id="k" name="contact" type="text" placeholder="@username или email" required></div>
+          <div class="f"><label for="b">Бюджет · ₽</label><input id="b" name="budget" type="text" placeholder="45 000 — 150 000"></div>
+        </div>
+        <div class="f"><label for="t">О задаче</label><textarea id="t" name="task" placeholder="Нужен лендинг, есть тексты, хочу запуск через две недели."></textarea></div>
+        <label class="consent">
+          <input type="checkbox" name="consent" required>
+          <span>Я даю <a href="/consent.html" target="_blank">согласие на обработку персональных данных</a> и принимаю <a href="/privacy.html" target="_blank">политику конфиденциальности</a>.</span>
+        </label>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+        <button type="submit" class="btn btn-fill" id="send" style="align-self:flex-start">Отправить заявку <span style="font-family:var(--mono)">→</span></button>
+        <div class="ok" id="done" hidden><span>✓</span> Принято · отвечу в течение часа →</div>
+        <div class="err" id="fail" hidden>Не удалось отправить. Напишите в <a href="https://t.me/Dmitrii_Diezel">Telegram</a> или на <a href="mailto:info@tsekh7.ru">info@tsekh7.ru</a>.</div>
+      </form>
+
+      <div class="side">
+        <h3>Или сразу<br>в мессенджер.</h3>
+        <div>
+          <div class="row"><span>Telegram</span><a href="https://t.me/Dmitrii_Diezel">@Dmitrii_Diezel</a></div>
+          <div class="row"><span>Телефон</span><a href="tel:+79933673178">+7 993 367-31-78</a></div>
+          <div class="row"><span>Email</span><a href="mailto:info@tsekh7.ru">info@tsekh7.ru</a></div>
+        </div>
+        <div class="mono" style="margin-top:auto;color:var(--muted);line-height:1.7">// ПН–ПТ · 10:00–20:00 MSK<br>// Отвечаю в течение часа в рабочее время</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap f-in">
+    <div class="f-top">
+      <div>
+        <div class="f-brand">
+          <svg width="38" height="38" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+            <path d="M14 8 L6 8 L6 56 L14 56" stroke="#2F7BFF" stroke-width="4" stroke-linecap="square"/>
+            <path d="M50 8 L58 8 L58 56 L50 56" stroke="#2F7BFF" stroke-width="4" stroke-linecap="square"/>
+            <path d="M23 18 L43 18 L26 48" stroke="#F2F2EE" stroke-width="4" stroke-linecap="square"/>
+          </svg>
+          <span>ЦЕХ&nbsp;7</span>
+        </div>
+        <div class="f-meta">
+          // Сайты на чистом HTML · CSS · JS<br>
+          // Домен · почта · метрика · хостинг<br>
+          // Москва · UTC+3
+        </div>
+      </div>
+      <div class="f-slogan">отгру&shy;жено<span style="color:var(--accent)">.</span></div>
+    </div>
+    <div class="f-links">
+      <a href="mailto:info@tsekh7.ru">Email ↗</a>
+      <a href="https://t.me/Dmitrii_Diezel">Telegram ↗</a>
+      <a href="/brief.html">Бриф ↗</a>
+      <a href="/blog.html">Блог ↗</a>
+    </div>
+    <div class="f-bot">
+      <div>© 2026 · ЦЕХ 7 · Сделано человеком + нейросетью</div>
+      <div><a href="/privacy.html">Политика конфиденциальности</a> · <a href="/consent.html">Согласие на обработку ПДн</a></div>
+    </div>
+  </div>
+</footer>
+
+<div id="ck">
+  <div class="in">
+    <p>Сайт использует файлы cookie и сервисы веб-аналитики. Продолжая пользоваться сайтом, вы даёте согласие на обработку ваших данных с их помощью — подробнее в <a href="/privacy.html">политике конфиденциальности</a>.</p>
+    <button type="button" id="ck-ok">Принимаю</button>
+  </div>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"ProfessionalService",
+  "name":"ЦЕХ 7 — разработка сайтов",
+  "alternateName":"TSEKH 7",
+  "description":"Разработка сайтов на чистом HTML/CSS/JS за 7 дней. Лендинги и многостраничники под ключ: домен, почта, Яндекс.Метрика, хостинг.",
+  "url":"https://tsekh7.ru/",
+  "logo":"https://tsekh7.ru/logo.svg",
+  "email":"info@tsekh7.ru",
+  "telephone":"+7-993-367-31-78",
+  "founder":{"@type":"Person","name":"Дмитрий Москаленко","jobTitle":"Веб-разработчик"},
+  "areaServed":{"@type":"Country","name":"Россия"},
+  "address":{"@type":"PostalAddress","addressLocality":"Москва","addressCountry":"RU"},
+  "priceRange":"45000-150000 RUB",
+  "openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"10:00","closes":"20:00"},
+  "hasOfferCatalog":{"@type":"OfferCatalog","name":"Тарифы","itemListElement":[
+    {"@type":"Offer","name":"Лендинг","price":"45000","priceCurrency":"RUB"},
+    {"@type":"Offer","name":"Мультистраничник","price":"90000","priceCurrency":"RUB"}
+  ]}
+}
+</script>
+
+<script>
+(function(){
+  // ---- Форма -> Formspree -> info@tsekh7.ru ----
+  var ENDPOINT='https://formspree.io/f/mnjelazj';
+  var f=document.getElementById('lead'),ok=document.getElementById('done'),
+      fail=document.getElementById('fail'),btn=document.getElementById('send');
+
+  if(f)f.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!f.checkValidity()){f.reportValidity();return;}
+    if(f._gotcha && f._gotcha.value) return;          // ловушка для ботов
+
+    fail.hidden=true;
+    btn.disabled=true;
+    var label=btn.innerHTML;
+    btn.innerHTML='Отправляю…';
+
+    var c=f.contact.value.trim();
+    var d={
+      _subject:'Заявка с сайта ЦЕХ 7',
+      'Имя':f.name.value.trim(),
+      'Компания':f.company.value.trim()||'—',
+      'Контакт':c,
+      'Бюджет':f.budget.value.trim()||'—',
+      'Задача':f.task.value.trim()||'—',
+      'Согласие на обработку ПДн':'да',
+      'Страница':location.href
+    };
+    // Formspree берёт Reply-To из поля email
+    if(c.indexOf('@')>0 && c.indexOf('.')>0 && c.charAt(0)!=='@') d.email=c;
+
+    fetch(ENDPOINT,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify(d)
+    })
+    .then(function(r){ return r.json().then(function(j){ if(!r.ok) throw j; return j; }); })
+    .then(function(){ ok.hidden=false; btn.style.display='none'; f.reset(); })
+    .catch(function(){ fail.hidden=false; btn.disabled=false; btn.innerHTML=label; });
+  });
+
+  // Cookie
+  var K='ck_consent',el=document.getElementById('ck'),b=document.getElementById('ck-ok');
+  function has(){return document.cookie.split('; ').some(function(c){return c.indexOf(K+'=1')===0;});}
+  if(el&&b){
+    if(!has())el.style.display='block';
+    b.addEventListener('click',function(){
+      var d=new Date();d.setFullYear(d.getFullYear()+1);
+      document.cookie=K+'=1; expires='+d.toUTCString()+'; path=/; SameSite=Lax';
+      el.style.display='none';
+    });
+  }
+})();
+</script>
+</body>
+</html>

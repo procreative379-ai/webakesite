@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Бриф на разработку сайта · ЦЕХ 7</title>
+<meta name="description" content="Бриф на разработку сайта: 12 вопросов, 5 минут. Заполните — и получите расчёт срока и стоимости в течение часа.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://tsekh7.ru/brief.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Бриф на разработку сайта · ЦЕХ 7">
+<meta property="og:description" content="12 вопросов, 5 минут. В ответ — расчёт срока и стоимости.">
+<meta property="og:url" content="https://tsekh7.ru/brief.html">
+<meta property="og:image" content="https://tsekh7.ru/og.jpg">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;800&family=Manrope:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --canvas:#0A0B0D;--raise:#121316;--sink:#050608;
+  --n800:#25282E;--n700:#3A3E46;--fg:#F2F2EE;--muted:#8E939C;--faint:#4A4E55;
+  --accent:#2F7BFF;--ink:#0A0B0D;
+  --display:'Unbounded',system-ui,sans-serif;
+  --body:'Manrope',-apple-system,sans-serif;
+  --mono:'JetBrains Mono','SF Mono',monospace;
+  --ease:cubic-bezier(.2,.8,.2,1);--pad:clamp(20px,5vw,32px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--canvas);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button,input,textarea{font:inherit;color:inherit}
+::selection{background:var(--accent);color:var(--ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.wrap{max-width:900px;margin:0 auto;padding:0 var(--pad)}
+.wide{max-width:1320px}
+.mono{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+
+nav{border-bottom:1px solid var(--n800);padding:13px 0;position:sticky;top:0;background:rgba(10,11,13,.95);backdrop-filter:blur(8px);z-index:50}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;font-family:var(--display);font-weight:800;font-size:19px;letter-spacing:-.02em}
+.back{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.back:hover{color:var(--accent)}
+
+header.page{padding:clamp(48px,9vw,88px) 0 32px;border-bottom:1px solid var(--n800)}
+.eyebrow{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(34px,6.5vw,72px);letter-spacing:-.035em;line-height:1;margin:14px 0 18px}
+.lead{font-size:17px;color:var(--muted);max-width:600px}
+
+/* прогресс */
+.bar{position:sticky;top:53px;z-index:40;background:var(--canvas);border-bottom:1px solid var(--n800);padding:12px 0}
+.bar-in{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.track{flex:1;height:3px;background:var(--n800);position:relative;overflow:hidden}
+.fill{position:absolute;inset:0 auto 0 0;width:0;background:var(--accent);transition:width 320ms var(--ease)}
+
+form{padding:40px 0 72px;display:flex;flex-direction:column;gap:0}
+.q{border:1px solid var(--n800);margin-top:-1px;padding:26px clamp(18px,3vw,30px);display:flex;flex-direction:column;gap:14px;background:var(--canvas);transition:background 240ms var(--ease)}
+.q:focus-within{background:var(--raise)}
+.q-head{display:flex;gap:14px;align-items:baseline}
+.q-num{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--accent);flex-shrink:0}
+.q-ttl{font-family:var(--display);font-weight:700;font-size:clamp(17px,2.4vw,21px);letter-spacing:-.01em;line-height:1.25}
+.q-hint{font-size:13px;color:var(--faint);line-height:1.5}
+.req{color:var(--accent)}
+
+input[type=text],input[type=email],textarea{width:100%;background:transparent;border:0;border-bottom:1px solid var(--n700);padding:11px 0;font-size:15px;outline:none;transition:border-color 160ms var(--ease)}
+textarea{border:1px solid var(--n700);padding:13px;resize:vertical;min-height:92px}
+input:focus,textarea:focus{border-color:var(--accent)}
+input::placeholder,textarea::placeholder{color:var(--faint)}
+.pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px 26px}
+
+.opts{display:flex;gap:9px;flex-wrap:wrap}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;width:0;height:0}
+.opt span{display:inline-block;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:9px 14px;border:1px solid var(--n700);color:var(--muted);cursor:pointer;transition:all 160ms var(--ease)}
+.opt span:hover{border-color:var(--muted);color:var(--fg)}
+.opt input:checked+span{border-color:var(--accent);background:var(--accent);color:var(--ink)}
+.opt input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.5;color:var(--muted);cursor:pointer;margin-top:4px}
+.consent input{margin-top:3px;width:16px;height:16px;accent-color:var(--accent);flex-shrink:0}
+.consent a{color:var(--accent);border-bottom:1px solid currentColor}
+
+.actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:32px;align-items:center}
+.btn{font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:.02em;text-transform:uppercase;padding:16px 24px;display:inline-flex;align-items:center;gap:12px;border:1px solid transparent;cursor:pointer;transition:all 180ms var(--ease)}
+.btn-fill{background:var(--accent);color:var(--ink)}
+.btn-fill:hover{box-shadow:4px 4px 0 var(--fg);transform:translate(-3px,-3px)}
+.btn-line{border-color:var(--n700);color:var(--muted);background:transparent}
+.btn-line:hover{border-color:var(--fg);color:var(--fg)}
+
+.result{border:1px solid var(--accent);background:var(--raise);padding:clamp(22px,4vw,34px);margin-top:32px;display:none;flex-direction:column;gap:18px}
+.result.on{display:flex}
+.result h2{font-family:var(--display);font-weight:700;font-size:clamp(20px,3vw,27px);letter-spacing:-.02em;line-height:1.15}
+.result p{font-size:14px;color:var(--muted)}
+pre{font-family:var(--mono);font-size:12px;line-height:1.75;color:var(--fg);background:var(--sink);border:1px solid var(--n800);padding:18px;overflow-x:auto;white-space:pre-wrap;word-break:break-word;max-height:340px}
+
+.sent{font-family:var(--mono);font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);border:1px solid var(--accent);padding:13px 16px;display:flex;gap:10px;align-items:center}
+.fail{font-family:var(--mono);font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:#FF4D2E;border:1px solid #FF4D2E;padding:13px 16px;line-height:1.6}
+.fail a{color:#FF4D2E;border-bottom:1px solid currentColor}
+footer{border-top:1px solid var(--n800);background:var(--sink);padding:30px 0;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint)}
+.f-row{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a{color:var(--faint)}
+footer a:hover{color:var(--accent)}
+
+#ck{display:none;position:fixed;left:0;right:0;bottom:0;z-index:9999;background:var(--raise);border-top:1px solid var(--n700);padding:18px var(--pad)}
+#ck .in{max-width:1320px;margin:0 auto;display:flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:space-between}
+#ck p{font-size:13px;color:var(--muted);max-width:780px;line-height:1.55}
+#ck a{color:var(--accent);border-bottom:1px solid currentColor}
+#ck button{font-family:var(--display);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.04em;padding:13px 22px;border:0;background:var(--accent);color:var(--ink);cursor:pointer;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap wide nav-in">
+    <a href="/" class="brand">
+      <svg width="26" height="26" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+        <path d="M14 8 L6 8 L6 56 L14 56" stroke="#2F7BFF" stroke-width="4" stroke-linecap="square"/>
+        <path d="M50 8 L58 8 L58 56 L50 56" stroke="#2F7BFF" stroke-width="4" stroke-linecap="square"/>
+        <path d="M23 18 L43 18 L26 48" stroke="#F2F2EE" stroke-width="4" stroke-linecap="square"/>
+      </svg>
+      <span>ЦЕХ&nbsp;7</span>
+    </a>
+    <a href="/" class="back">← На главную</a>
+  </div>
+</nav>
+
+<header class="page">
+  <div class="wrap">
+    <div class="eyebrow">// наряд-заказ · форма 7</div>
+    <h1>Бриф</h1>
+    <p class="lead">12 вопросов, около пяти минут. Чем точнее ответы, тем точнее срок и цена — расчёт пришлю в течение часа. Обязательны только четыре поля, остальное можно пропустить.</p>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="wrap bar-in">
+    <span>Заполнено</span>
+    <div class="track"><div class="fill" id="fill"></div></div>
+    <span id="cnt">0 / 12</span>
+  </div>
+</div>
+
+<form id="brief" novalidate>
+  <div class="wrap">
+
+    <div class="q">
+      <div class="q-head"><div class="q-num">[01]</div><div class="q-ttl">Как вас зовут и как связаться? <span class="req">*</span></div></div>
+      <div class="pair">
+        <input type="text" data-q name="name" placeholder="Имя" required>
+        <input type="text" data-q name="contact" placeholder="Telegram или email" required>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="q-num">[02]</div><div class="q-ttl">Компания и сфера <span class="req">*</span></div></div>
+      <div class="q-hint">Чем занимаетесь и для кого. Одной строкой.</div>
+      <input type="text" data-q name="company" placeholder="Кофейня в Домодедово, обжарка на месте" required>
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="q-num">[03]</div><div class="q-ttl">Что нужно сделать? <span class="req">*</span></div></div>
+      <div class="opts">
+        <label class="opt"><input type="radio" data-q name="type" value="Лендинг (одна страница)" required><span>Лендинг</span></label>
+        <label class="opt"><input type="radio" name="type" value="Многостраничник"><span>Многостраничник</span></label>
+        <label class="opt"><input type="radio" name="type" value="Каталог товаров"><span>Каталог</span></label>
+        <label class="opt"><input type="radio" name="type" value="Переделать существующий сайт"><span>Переделать старый</span></label>
+        <label class="opt"><input type="radio" name="type" value="Пока не знаю"><span>Пока не знаю</span></label>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="q-num">[04]</div><div class="q-ttl">Что сайт должен делать?</div></div>
+      <div class="q-hint">Главное действие посетителя. Можно выбрать несколько.</div>
+      <div class="opts">
+        <label class="opt"><input type="checkbox" data-q name="goal" value="Оставить заявку"><span>Оставить заявку</span></label>
+        <label class="opt"><input type="checkbox" name="goal" value="Позвонить"><span>Позвонить</span></label>
+        <label class="opt"><input type="checkbox" name="goal" value="Записаться"><span>Записаться</span></label>
+        <label class="opt"><input type="checkbox" name="goal" value="Купить"><span>Купить</span></label>
+        <label class="opt"><input type="checkbox" name="goal" value="Изучить каталог"><span>Изучить каталог</span></label>
+        <label class="opt"><input type="checkbox" name="goal" value="Просто представительство"><span>Представительство</span></label>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="q-num">[05]</div><div class="q-ttl">Кто ваш клиент?</div></div>
+      <div class="q-hint">Кто принимает решение и что для него важно при выборе.</div>
+      <textarea data-q name="audience" placeholder="Владельцы небольших кофеен, 25–45. Смотрят на цену и на то, дадут ли гарантию."></textarea>
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="q-num">[06]</div><div class="q-ttl">Кто конкуренты?</div></div>
+      <div class="q-hint">2–3 ссылки. Можно с комментарием, что нравится, а что нет.</div>
+      <textarea data-q name="rivals" placeholder="example.ru — нравится, как показан каталог&#10;another.ru — слишком много текста"></textarea>
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="q-num">[07]</div><div class="q-ttl">Сайты, которые нравятся</div></div>
+      <div class="q-hint">Любые, хоть из другой отрасли. Важно — почему.</div>
+      <textarea data-q name="refs" placeholder="Ссылка — нравится строгость и что нет лишнего"></textarea>
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="q-num">[08]</div><div class="q-ttl">Что уже есть?</div></div>
+      <div class="opts">
+        <label class="opt"><input type="checkbox" data-q name="assets" value="Логотип"><span>Логотип</span></label>
+        <label class="opt"><input type="checkbox" name="assets" value="Фирменный стиль"><span>Фирстиль</span></label>
+        <label class="opt"><input type="checkbox" name="assets" value="Тексты"><span>Тексты</span></label>
+        <label class="opt"><input type="checkbox" name="assets" value="Фотографии"><span>Фото</span></label>
+        <label class="opt"><input type="checkbox" name="assets" value="Домен"><span>Домен</span></label>
+        <label class="opt"><input type="checkbox" name="assets" value="Ничего нет"><span>Ничего нет</span></label>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="q-num">[09]</div><div class="q-ttl">Структура страниц</div></div>
+      <div class="q-hint">Какие блоки или разделы точно нужны. Если не знаете — пропустите, предложу сам.</div>
+      <textarea data-q name="structure" placeholder="Главная, о нас, каталог, доставка, контакты"></textarea>
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="q-num">[10]</div><div class="q-ttl">Бюджет <span class="req">*</span></div></div>
+      <div class="opts">
+        <label class="opt"><input type="radio" data-q name="budget" value="до 45 000 ₽" required><span>до 45 000</span></label>
+        <label class="opt"><input type="radio" name="budget" value="45 000 – 90 000 ₽"><span>45–90 тыс.</span></label>
+        <label class="opt"><input type="radio" name="budget" value="90 000 – 150 000 ₽"><span>90–150 тыс.</span></label>
+        <label class="opt"><input type="radio" name="budget" value="свыше 150 000 ₽"><span>от 150 тыс.</span></label>
+        <label class="opt"><input type="radio" name="budget" value="нужен ориентир"><span>Нужен ориентир</span></label>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="q-num">[11]</div><div class="q-ttl">Когда нужен результат?</div></div>
+      <div class="opts">
+        <label class="opt"><input type="radio" data-q name="deadline" value="Вчера — горит"><span>Горит</span></label>
+        <label class="opt"><input type="radio" name="deadline" value="В течение недели"><span>Неделя</span></label>
+        <label class="opt"><input type="radio" name="deadline" value="В течение месяца"><span>Месяц</span></label>
+        <label class="opt"><input type="radio" name="deadline" value="Не горит, важнее качество"><span>Не горит</span></label>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="q-head"><div class="q-num">[12]</div><div class="q-ttl">Что ещё важно знать?</div></div>
+      <div class="q-hint">Ограничения, пожелания, больные места. Здесь можно свободно.</div>
+      <textarea data-q name="extra" placeholder="Прошлый подрядчик пропал на месяц — хочу понимать статус по ходу работы."></textarea>
+    </div>
+
+    <label class="consent">
+      <input type="checkbox" name="consent" required>
+      <span>Я даю <a href="/consent.html" target="_blank">согласие на обработку персональных данных</a> и принимаю <a href="/privacy.html" target="_blank">политику конфиденциальности</a>. <span class="req">*</span></span>
+    </label>
+
+    <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+
+    <div class="actions">
+      <button type="submit" class="btn btn-fill">Собрать бриф <span style="font-family:var(--mono)">→</span></button>
+      <button type="button" class="btn btn-line" id="reset">Очистить</button>
+    </div>
+
+    <div class="result" id="result">
+      <h2>Бриф собран. Осталось отправить.</h2>
+      <p>Нажмите «Отправить бриф» — он уйдёт мне на почту. Или скопируйте текст и пришлите в Telegram, если так удобнее.</p>
+      <div class="sent" id="sent" hidden><span>✓</span> Бриф отправлен · расчёт пришлю в течение часа →</div>
+      <div class="fail" id="fail" hidden>Не удалось отправить. Скопируйте текст и пришлите в <a href="https://t.me/Dmitrii_Diezel">Telegram</a> или на <a href="mailto:info@tsekh7.ru">info@tsekh7.ru</a>.</div>
+      <pre id="out"></pre>
+      <div class="actions" style="margin-top:0">
+        <button type="button" class="btn btn-fill" id="send">Отправить бриф <span style="font-family:var(--mono)">→</span></button>
+        <button type="button" class="btn btn-line" id="copy">Скопировать текст</button>
+        <a class="btn btn-line" href="https://t.me/Dmitrii_Diezel" target="_blank" rel="noopener">Открыть Telegram ↗</a>
+        <a class="btn btn-line" id="mail" href="mailto:info@tsekh7.ru">Отправить почтой ↗</a>
+      </div>
+    </div>
+
+  </div>
+</form>
+
+<footer>
+  <div class="wrap wide f-row">
+    <div>© 2026 · ЦЕХ 7</div>
+    <div><a href="/privacy.html">Политика конфиденциальности</a> · <a href="/">На главную</a></div>
+  </div>
+</footer>
+
+<div id="ck">
+  <div class="in">
+    <p>Сайт использует файлы cookie и сервисы веб-аналитики. Продолжая пользоваться сайтом, вы даёте согласие на обработку ваших данных с их помощью — подробнее в <a href="/privacy.html">политике конфиденциальности</a>.</p>
+    <button type="button" id="ck-ok">Принимаю</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var form=document.getElementById('brief');
+  var fill=document.getElementById('fill');
+  var cnt=document.getElementById('cnt');
+  var res=document.getElementById('result');
+  var out=document.getElementById('out');
+
+  var Q=[
+    {k:'Имя',n:['name','contact']},
+    {k:'Компания и сфера',n:['company']},
+    {k:'Тип сайта',n:['type']},
+    {k:'Целевое действие',n:['goal']},
+    {k:'Аудитория',n:['audience']},
+    {k:'Конкуренты',n:['rivals']},
+    {k:'Референсы',n:['refs']},
+    {k:'Что уже есть',n:['assets']},
+    {k:'Структура',n:['structure']},
+    {k:'Бюджет',n:['budget']},
+    {k:'Сроки',n:['deadline']},
+    {k:'Дополнительно',n:['extra']}
+  ];
+
+  function vals(name){
+    var out=[];
+    form.querySelectorAll('[name="'+name+'"]').forEach(function(el){
+      if(el.type==='radio'||el.type==='checkbox'){ if(el.checked) out.push(el.value); }
+      else if(el.value.trim()) out.push(el.value.trim());
+    });
+    return out;
+  }
+
+  function filled(q){ return q.n.some(function(n){ return vals(n).length>0; }); }
+
+  function progress(){
+    var d=Q.filter(filled).length;
+    fill.style.width=(d/Q.length*100)+'%';
+    cnt.textContent=d+' / '+Q.length;
+  }
+
+  form.addEventListener('input',progress);
+  form.addEventListener('change',progress);
+  progress();
+
+  function build(){
+    var L=['БРИФ НА РАЗРАБОТКУ САЙТА','ЦЕХ 7 · '+new Date().toLocaleDateString('ru-RU'),''];
+    Q.forEach(function(q,i){
+      var v=[];
+      q.n.forEach(function(n){ v=v.concat(vals(n)); });
+      if(!v.length) return;
+      L.push(String(i+1).padStart(2,'0')+'. '+q.k.toUpperCase());
+      L.push(v.join(v.length>1&&q.n.length===1?', ':' · '));
+      L.push('');
+    });
+    return L.join('\n');
+  }
+
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!form.checkValidity()){ form.reportValidity(); return; }
+    var t=build();
+    out.textContent=t;
+    res.classList.add('on');
+    document.getElementById('mail').href='mailto:info@tsekh7.ru?subject='+
+      encodeURIComponent('Бриф на разработку сайта')+'&body='+encodeURIComponent(t);
+    res.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+
+  // ---- Отправка брифа -> Formspree -> info@tsekh7.ru ----
+  var ENDPOINT='https://formspree.io/f/mnjelazj';
+  var sent=document.getElementById('sent'),fail=document.getElementById('fail');
+
+  document.getElementById('send').addEventListener('click',function(){
+    var b=this;
+    if(form._gotcha && form._gotcha.value) return;
+    fail.hidden=true; b.disabled=true;
+    var label=b.innerHTML; b.innerHTML='Отправляю…';
+
+    var c=vals('contact')[0]||'';
+    var d={
+      _subject:'Бриф с сайта ЦЕХ 7 — '+(vals('company')[0]||vals('name')[0]||'без названия'),
+      'Бриф':out.textContent,
+      'Согласие на обработку ПДн':'да'
+    };
+    if(c.indexOf('@')>0 && c.indexOf('.')>0 && c.charAt(0)!=='@') d.email=c;
+
+    fetch(ENDPOINT,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify(d)
+    })
+    .then(function(r){ return r.json().then(function(j){ if(!r.ok) throw j; return j; }); })
+    .then(function(){ sent.hidden=false; b.style.display='none'; })
+    .catch(function(){ fail.hidden=false; b.disabled=false; b.innerHTML=label; });
+  });
+
+  document.getElementById('copy').addEventListener('click',function(){
+    var b=this,t=out.textContent;
+    function done(){ b.textContent='Скопировано ✓'; setTimeout(function(){b.textContent='Скопировать текст';},1800); }
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(done,fallback);
+    } else fallback();
+    function fallback(){
+      var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);
+      a.select();try{document.execCommand('copy');done();}catch(err){b.textContent='Выделите текст вручную';}
+      document.body.removeChild(a);
+    }
+  });
+
+  document.getElementById('reset').addEventListener('click',function(){
+    form.reset();res.classList.remove('on');progress();
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  // Cookie
+  var K='ck_consent',el=document.getElementById('ck'),b=document.getElementById('ck-ok');
+  function has(){return document.cookie.split('; ').some(function(c){return c.indexOf(K+'=1')===0;});}
+  if(!has())el.style.display='block';
+  b.addEventListener('click',function(){
+    var d=new Date();d.setFullYear(d.getFullYear()+1);
+    document.cookie=K+'=1; expires='+d.toUTCString()+'; path=/; SameSite=Lax';
+    el.style.display='none';
+  });
+})();
+</script>
+</body>
+</html>

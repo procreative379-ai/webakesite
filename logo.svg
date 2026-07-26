@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" width="260" height="64">
+  <path d="M14 8 L6 8 L6 56 L14 56" stroke="#2F7BFF" stroke-width="4" stroke-linecap="square" fill="none"/>
+  <path d="M50 8 L58 8 L58 56 L50 56" stroke="#2F7BFF" stroke-width="4" stroke-linecap="square" fill="none"/>
+  <path d="M23 18 L43 18 L26 48" stroke="#F2F2EE" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter" fill="none"/>
+  <text x="78" y="45" font-family="Unbounded, system-ui, sans-serif" font-weight="800" font-size="34" letter-spacing="-1" fill="#F2F2EE">ЦЕХ 7</text>
+</svg>
