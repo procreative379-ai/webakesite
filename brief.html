@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="yandex-verification" content="a23e4b40ec26e2f5" />
 <title>Бриф на разработку сайта · ЦЕХ 7</title>
 <meta name="description" content="Бриф на разработку сайта: 12 вопросов, 5 минут. Заполните — и получите расчёт срока и стоимости в течение часа.">
 <meta name="robots" content="index, follow">
@@ -379,7 +380,8 @@ footer a:hover{color:var(--accent)}
       body:JSON.stringify(d)
     })
     .then(function(r){ return r.json().then(function(j){ if(!r.ok) throw j; return j; }); })
-    .then(function(){ sent.hidden=false; b.style.display='none'; })
+    .then(function(){ sent.hidden=false; b.style.display='none';
+                      if(window.ym) ym(111043736,'reachGoal','brief'); })
     .catch(function(){ fail.hidden=false; b.disabled=false; b.innerHTML=label; });
   });
 
@@ -412,5 +414,18 @@ footer a:hover{color:var(--accent)}
   });
 })();
 </script>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111043736', 'ym');
+    ym(111043736, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/111043736" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 </body>
 </html>
