@@ -13,7 +13,11 @@
 <meta property="og:description" content="12 вопросов, 5 минут. В ответ — расчёт срока и стоимости.">
 <meta property="og:url" content="https://tsekh7.ru/brief.html">
 <meta property="og:image" content="https://tsekh7.ru/og.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;800&family=Manrope:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -253,18 +257,17 @@ footer a:hover{color:var(--accent)}
     <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
 
     <div class="actions">
-      <button type="submit" class="btn btn-fill">Собрать бриф <span style="font-family:var(--mono)">→</span></button>
+      <button type="submit" class="btn btn-fill" id="main">Отправить бриф <span style="font-family:var(--mono)">→</span></button>
       <button type="button" class="btn btn-line" id="reset">Очистить</button>
     </div>
 
     <div class="result" id="result">
-      <h2>Бриф собран. Осталось отправить.</h2>
-      <p>Нажмите «Отправить бриф» — он уйдёт мне на почту. Или скопируйте текст и пришлите в Telegram, если так удобнее.</p>
+      <h2 id="res-h">Бриф отправлен.</h2>
+      <p id="res-p">Расчёт срока и стоимости пришлю в течение часа. Ниже — копия того, что ушло.</p>
       <div class="sent" id="sent" hidden><span>✓</span> Бриф отправлен · расчёт пришлю в течение часа →</div>
       <div class="fail" id="fail" hidden>Не удалось отправить. Скопируйте текст и пришлите в <a href="https://t.me/Dmitrii_Diezel">Telegram</a> или на <a href="mailto:info@tsekh7.ru">info@tsekh7.ru</a>.</div>
       <pre id="out"></pre>
       <div class="actions" style="margin-top:0">
-        <button type="button" class="btn btn-fill" id="send">Отправить бриф <span style="font-family:var(--mono)">→</span></button>
         <button type="button" class="btn btn-line" id="copy">Скопировать текст</button>
         <a class="btn btn-line" href="https://t.me/Dmitrii_Diezel" target="_blank" rel="noopener">Открыть Telegram ↗</a>
         <a class="btn btn-line" id="mail" href="mailto:info@tsekh7.ru">Отправить почтой ↗</a>
@@ -345,31 +348,30 @@ footer a:hover{color:var(--accent)}
     return L.join('\n');
   }
 
+  // ---- Отправка брифа -> Formspree ----
+  var ENDPOINT='https://formspree.io/f/xkodlydv';
+  var sent=document.getElementById('sent'),fail=document.getElementById('fail'),
+      resH=document.getElementById('res-h'),resP=document.getElementById('res-p');
+
   form.addEventListener('submit',function(e){
     e.preventDefault();
     if(!form.checkValidity()){ form.reportValidity(); return; }
+    if(form._gotcha && form._gotcha.value) return;
+
     var t=build();
     out.textContent=t;
-    res.classList.add('on');
     document.getElementById('mail').href='mailto:info@tsekh7.ru?subject='+
       encodeURIComponent('Бриф на разработку сайта')+'&body='+encodeURIComponent(t);
-    res.scrollIntoView({behavior:'smooth',block:'start'});
-  });
 
-  // ---- Отправка брифа -> Formspree -> info@tsekh7.ru ----
-  var ENDPOINT='https://formspree.io/f/mnjelazj';
-  var sent=document.getElementById('sent'),fail=document.getElementById('fail');
-
-  document.getElementById('send').addEventListener('click',function(){
-    var b=this;
-    if(form._gotcha && form._gotcha.value) return;
-    fail.hidden=true; b.disabled=true;
-    var label=b.innerHTML; b.innerHTML='Отправляю…';
+    var btn=document.getElementById('main');
+    var label=btn.innerHTML;
+    btn.disabled=true; btn.innerHTML='Отправляю…';
+    fail.hidden=true; sent.hidden=true;
 
     var c=vals('contact')[0]||'';
     var d={
       _subject:'Бриф с сайта ЦЕХ 7 — '+(vals('company')[0]||vals('name')[0]||'без названия'),
-      'Бриф':out.textContent,
+      'Бриф':t,
       'Согласие на обработку ПДн':'да'
     };
     if(c.indexOf('@')>0 && c.indexOf('.')>0 && c.charAt(0)!=='@') d.email=c;
@@ -380,9 +382,23 @@ footer a:hover{color:var(--accent)}
       body:JSON.stringify(d)
     })
     .then(function(r){ return r.json().then(function(j){ if(!r.ok) throw j; return j; }); })
-    .then(function(){ sent.hidden=false; b.style.display='none';
-                      if(window.ym) ym(111043736,'reachGoal','brief'); })
-    .catch(function(){ fail.hidden=false; b.disabled=false; b.innerHTML=label; });
+    .then(function(){
+      sent.hidden=false;
+      btn.style.display='none';
+      resH.textContent='Бриф отправлен.';
+      resP.textContent='Расчёт срока и стоимости пришлю в течение часа. Ниже — копия того, что ушло.';
+      res.classList.add('on');
+      res.scrollIntoView({behavior:'smooth',block:'start'});
+      if(window.ym) ym(111043736,'reachGoal','brief');
+    })
+    .catch(function(){
+      fail.hidden=false;
+      btn.disabled=false; btn.innerHTML=label;
+      resH.textContent='Отправить не удалось.';
+      resP.textContent='Ничего не потерялось — скопируйте текст ниже и пришлите в Telegram или на почту.';
+      res.classList.add('on');
+      res.scrollIntoView({behavior:'smooth',block:'start'});
+    });
   });
 
   document.getElementById('copy').addEventListener('click',function(){
